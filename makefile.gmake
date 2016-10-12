@@ -1,0 +1,22 @@
+include config.gmake
+
+all: $(TARGET) $(UDASM)
+
+$(UDASM): $(TARGET)
+	test -d $(PWD)/bin || mkdir $(PWD)/bin
+	test -d $(PWD)/ida || mkdir $(PWD)/ida
+	@(cd src && $(MAKE) -f makefile.gmake && cd ..)
+ 
+$(TARGET): $(OBJ_FILES)
+	$(AR) $(ARFLAGS) $(PWD)/libmcu/$@ $(OBJ_FILES)
+	
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	$(RM) -f $(PWD)/libmcu/*.o $(PWD)/libmcu/arch/*.o
+	$(RM) -f $(PWD)/libmcu/$(TARGET)
+	@(cd src && $(MAKE) -f makefile.gmake clean && cd ..)
+
+.PHONY: clean
+

@@ -1,0 +1,16 @@
+UDASM=udasm
+
+PWD=$(CURDIR)
+
+CC=gcc
+LD=gcc
+RM=rm
+AR=ar
+CP=cp
+
+UDASM_SRC_FILES = $(wildcard $(PWD)/*.c)
+UDASM_OBJ_FILES = $(UDASM_SRC_FILES:.c=.o)
+UDASM_CFLAGS = -Wall -Wextra -fstrict-overflow -Wstrict-overflow=5 -I $(PWD) -I $(PWD)/../libmcu -std=c99 -D_GNU_SOURCE -g 
+UDASM_LDFLAGS = -L $(PWD)/../libmcu
+UDASM_LIBS = -lmcu -lconfig
+

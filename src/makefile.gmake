@@ -1,0 +1,15 @@
+include config.gmake
+
+all: $(UDASM)
+
+$(UDASM): $(UDASM_OBJ_FILES)
+	$(LD) $(UDASM_LDFLAGS) -o $(PWD)/../bin/$@ $(UDASM_OBJ_FILES) $(UDASM_LIBS)
+ 
+%.o: %.c
+	$(CC) $(UDASM_CFLAGS) -c $< -o $@
+
+clean:
+	$(RM) -f $(PWD)/*.o $(PWD)/../bin/$(UDASM) 
+
+.PHONY: clean
+

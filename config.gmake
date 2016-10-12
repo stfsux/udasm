@@ -1,0 +1,21 @@
+
+TARGET=libmcu.a
+
+UDASM=udasm
+
+PWD=$(CURDIR)
+
+CC=gcc
+LD=gcc
+RM=rm
+AR=ar
+CP=cp
+MAKE=make
+
+SRC_FILES  = $(wildcard $(PWD)/libmcu/*.c)
+SRC_FILES += $(wildcard $(PWD)/libmcu/arch/*.c)
+OBJ_FILES  = $(SRC_FILES:.c=.o)
+
+ARFLAGS = rcs
+CFLAGS = -Wall -Wextra -fstrict-overflow -Wstrict-overflow=5 -I $(PWD)/libmcu -I $(PWD)/libmcu/arch -std=c99 -g
+
