@@ -1,0 +1,18 @@
+UDASM=udasm.exe
+
+UDASM_ROOT=C:/Users/IEUser/Desktop/dev/udasm
+LIBCONFIG_ROOT=C:/Users/IEUser/Desktop/libconfig-1.5.tar/libconfig-1.5
+
+CC=cl.exe
+LD=link.exe
+RM=del
+AR=lib.exe
+CP=copy
+
+UDASM_SRC_FILES = $(UDASM_ROOT)/src/file.c $(UDASM_ROOT)/src/udasm.c $(UDASM_ROOT)/src/win32/getopt_long.c
+UDASM_OBJ_FILES = $(UDASM_ROOT)/src/file.obj $(UDASM_ROOT)/src/udasm.obj $(UDASM_ROOT)/src/win32/getopt_long.obj
+
+UDASM_CFLAGS = /I$(UDASM_ROOT)/libmcu /I$(UDASM_ROOT)/src /I$(LIBCONFIG_ROOT)/lib /I$(UDASM_ROOT)/src/win32 /DGETOPT_API= /DREPLACE_GETOPT /DLIBCONFIG_STATIC /Gm- /GS /MT
+UDASM_LDFLAGS = /RELEASE /NOLOGO /SUBSYSTEM:CONSOLE /LIBPATH:$(UDASM_ROOT)/libmcu /LIBPATH:$(LIBCONFIG_ROOT)/Release kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+UDASM_LIBS = libmcu.lib libconfig.lib
+

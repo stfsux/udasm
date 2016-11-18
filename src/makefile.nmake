@@ -1,0 +1,15 @@
+!include config.nmake
+
+$(UDASM): $(UDASM_OBJ_FILES)
+	$(LD) $(UDASM_LDFLAGS) /out:$(UDASM_ROOT)/bin/$(UDASM) $(UDASM_OBJ_FILES) $(UDASM_LIBS)
+
+.c.obj:
+	$(CC) $(UDASM_CFLAGS) /Fo$*.obj /c $*.c 
+
+clean:
+	$(RM) .\*.obj
+	$(RM) .\win32\*.obj
+	$(RM) ..\bin\$(UDASM)
+
+.PHONY: clean
+

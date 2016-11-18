@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#if !defined(_WIN32)
 #include <getopt.h>
+#endif
 #include <string.h>
 #include <libconfig.h>
 
@@ -12,6 +14,9 @@
 
 #include "udasm.h"
 #include "file.h"
+#if defined(_WIN32)
+#include "getopt.h"
+#endif
 
 /* --------------------------------------------------------------- */
 char* g_udasm_appname = NULL;
@@ -71,11 +76,12 @@ int
 
       case 'l':
         inf ("List of supported architectures.\n");
-        inf ("Name                 Assembly syntax\n");
+        inf ("Name       Description                                        Assembly syntax\n");
         for (n = 0; n < libmcu_arch_get_num_archs (); n++)
         {
           mcu_arch = libmcu_arch_get (n);
-          inf ("%-20s ", mcu_arch->shortname);
+          inf ("%-10s ", mcu_arch->shortname);
+          inf ("%-50s ", mcu_arch->name);
           for (m = 0; m < mcu_arch->num_asm_fmts; m++)
           {
             inf ("%s", mcu_arch->asm_fmt[m]->fmt_shortname);
@@ -210,8 +216,6 @@ int
       offset = 0;
       while (offset < infile->blocks[m]->size)
       {
-        /* todo: check int. type. */
-        /* disasm. */
         code = calloc (mcu_ctx->arch->opcode_max_size,
             sizeof(uint8_t));
         for (i = 0; i < mcu_ctx->arch->opcode_max_size; i++)

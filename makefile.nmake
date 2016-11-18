@@ -1,0 +1,21 @@
+!include config.nmake
+
+all: $(TARGET) $(UDASM)
+
+$(UDASM): $(TARGET)
+	pushd src & nmake /f makefile.nmake & popd
+
+$(TARGET): $(OBJ_FILES)
+	$(AR) $(ARFLAGS) -out:$(UDASM_ROOT)/libmcu/$(TARGET) $(OBJ_FILES)
+
+.c.obj:
+	$(CC) $(CFLAGS) /Fo$*.obj /c $*.c
+
+clean:
+	$(RM) .\libmcu\arch\*.obj
+	$(RM) .\libmcu\win32\*.obj
+	$(RM) .\libmcu\*.obj
+	$(RM) .\libmcu\$(TARGET)
+	pushd src & nmake /f makefile.nmake clean & popd
+
+.PHONY: clean

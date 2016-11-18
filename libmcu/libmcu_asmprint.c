@@ -8,6 +8,9 @@
 #include "libmcu_mmap.h"
 #include "libmcu_asmprint.h"
 #include "libmcu_str.h"
+#if defined(_WIN32)
+#include "snprintf.h"
+#endif
 
 /* --------------------------------------------------------------- */
 void

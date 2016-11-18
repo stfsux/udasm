@@ -183,6 +183,7 @@ typedef struct mcu_ctx
 
 /* ---------------------------------------------------------------- */
 extern mcu_arch_t i8051_arch;
+extern mcu_arch_t pic12_arch;
 
 /* ---------------------------------------------------------------- */
 mcu_ctx_t* libmcu_arch_create (uint8_t arch);
