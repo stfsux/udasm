@@ -22,10 +22,11 @@ typedef struct mcu_opd_disp
 typedef struct mcu_opd
 {
   uint8_t type;
-#define MCU_OPD_TYPE_UNKNOWN  0
-#define MCU_OPD_TYPE_REGISTER 1
-#define MCU_OPD_TYPE_IMM      2
-#define MCU_OPD_TYPE_DISPL    3
+#define MCU_OPD_TYPE_UNKNOWN    0
+#define MCU_OPD_TYPE_REGISTER   1
+#define MCU_OPD_TYPE_IMM        2
+#define MCU_OPD_TYPE_DISPL      3
+#define MCU_OPD_TYPE_DOUBLE_REG 4
   uint8_t size;
 #define MCU_OPD_SIZE_UNKNOWN  0
 #define MCU_OPD_SIZE_BYTE     1
@@ -106,6 +107,7 @@ typedef struct mcu_asm_fmt
   char* data_qword;
   char* comm_prefix;
   char* comm_suffix;
+  char* multi_reg;
 }mcu_asm_fmt_t;
 
 typedef struct mcu_dasm
@@ -130,6 +132,7 @@ typedef struct mcu_arch
   char* author;
   char* licname;
   char* licfull;
+  char* description;
 
   /* disassembler data */
   char** mnemonics;
@@ -180,10 +183,11 @@ typedef struct mcu_ctx
 
 /* ---------------------------------------------------------------- */
 #define LIBMCU_ARCH_I8051 0
+#define LIBMCU_ARCH_AVR8  1
 
 /* ---------------------------------------------------------------- */
 extern mcu_arch_t i8051_arch;
-extern mcu_arch_t pic12_arch;
+extern mcu_arch_t avr8_arch;
 
 /* ---------------------------------------------------------------- */
 mcu_ctx_t* libmcu_arch_create (uint8_t arch);

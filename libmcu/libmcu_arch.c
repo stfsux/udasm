@@ -3,12 +3,12 @@
 #include "libmcu_arch.h"
 
 /* ---------------------------------------------------------------- */
-#define LIBMCU_NUM_ARCHS 1 
-mcu_arch_t* g_libmcu_archs[] =
+#define LIBMCU_NUM_ARCHS 2
+
+mcu_arch_t* g_libmcu_archs[LIBMCU_NUM_ARCHS+1] =
 {
   &i8051_arch,
-/*  &pic12_arch, */
-  NULL,
+  &avr8_arch,
   NULL,
 };
 
@@ -24,7 +24,11 @@ mcu_ctx_t*
   switch (arch)
   {
     case LIBMCU_ARCH_I8051:
-      ctx->arch = g_libmcu_archs[0];
+      ctx->arch = g_libmcu_archs[LIBMCU_ARCH_I8051];
+      break;
+
+    case LIBMCU_ARCH_AVR8:
+      ctx->arch = g_libmcu_archs[LIBMCU_ARCH_AVR8];
       break;
 
     default:

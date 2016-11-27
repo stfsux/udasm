@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "libmcu_arch.h"
+#include "i8051.h"
 
 /* ---------------------------------------------------------------- */
 char* i8051_mnemonics[] = 
@@ -23,20 +24,6 @@ char* i8051_regname[] =
   "R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "A", "DPTR",
   "PC", "C",  "AB"
 };
-
-#define I8051_REG_R0    ((uint8_t)0)
-#define I8051_REG_R1    ((uint8_t)1)
-#define I8051_REG_R2    ((uint8_t)2)
-#define I8051_REG_R3    ((uint8_t)3)
-#define I8051_REG_R4    ((uint8_t)4)
-#define I8051_REG_R5    ((uint8_t)5)
-#define I8051_REG_R6    ((uint8_t)6)
-#define I8051_REG_R7    ((uint8_t)7)
-#define I8051_REG_A     ((uint8_t)8)
-#define I8051_REG_DPTR  ((uint8_t)9)
-#define I8051_REG_PC    ((uint8_t)10)
-#define I8051_REG_C     ((uint8_t)11)
-#define I8051_REG_AB    ((uint8_t)12)
 
 /* ---------------------------------------------------------------- */
 static uint32_t i8051_insn_id[] = 
@@ -1548,6 +1535,8 @@ mcu_asm_fmt_t i8051_default_fmt =
 /*  .comm_padding      =*/ 40,
 /*  .dst_first         =*/ MCU_ASM_DST_FIRST,
 /*  .def_fmt           =*/ MCU_ASM_DEF_FORMAT_HEX,
+/*  .insn_prefix       =*/ NULL,
+/*  .insn_suffix       =*/ NULL,
 /*  .register_prefix   =*/ NULL,
 /*  .register_suffix   =*/ NULL,
 /*  .indirect_prefix   =*/ "@",
@@ -1585,6 +1574,7 @@ mcu_asm_fmt_t i8051_default_fmt =
 /*  .data_qword        =*/ NULL,
 /*  .comm_prefix       =*/ "; ",
 /*  .comm_suffix       =*/ NULL,
+/*  .multi_reg         =*/ NULL,
 };
 
 /* ---------------------------------------------------------------- */
@@ -1596,6 +1586,8 @@ mcu_asm_fmt_t i8051_fmt_colors =
 /*  .comm_padding      =*/ 40,
 /*  .dst_first         =*/ MCU_ASM_DST_FIRST,
 /*  .def_fmt           =*/ MCU_ASM_DEF_FORMAT_HEX,
+/*  .insn_prefix       =*/ NULL,
+/*  .insn_suffix       =*/ NULL,
 /*  .register_prefix   =*/ "\x1b[0;31m",
 /*  .register_suffix   =*/ "\x1b[0m",
 /*  .indirect_prefix   =*/ "\x1b[0;33m@",
@@ -1633,6 +1625,7 @@ mcu_asm_fmt_t i8051_fmt_colors =
 /*  .data_qword        =*/ NULL,
 /*  .comm_prefix       =*/ "; ",
 /*  .comm_suffix       =*/ NULL,
+/*  .multi_reg         =*/ NULL,
 };
 
 /* ---------------------------------------------------------------- */
@@ -1651,6 +1644,8 @@ mcu_arch_t i8051_arch =
 /*  .author          =*/ "stfsux",
 /*  .licname         =*/ "WTFPL",
 /*  .licfull         =*/ "bitebitebitbiebtiei",
+/*  .description     =*/ "Generic 8-bit Intel 8051 microcontroller "
+                         "disassembler.",
 
 /*  .mnemonics       =*/ i8051_mnemonics,
 /*  .ninsn           =*/ 0x00,

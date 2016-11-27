@@ -76,12 +76,14 @@ int
 
       case 'l':
         inf ("List of supported architectures.\n");
-        inf ("Name       Description                                        Assembly syntax\n");
         for (n = 0; n < libmcu_arch_get_num_archs (); n++)
         {
           mcu_arch = libmcu_arch_get (n);
-          inf ("%-10s ", mcu_arch->shortname);
-          inf ("%-50s ", mcu_arch->name);
+          inf ("\n");
+          inf ("Name:        %s\n", mcu_arch->name);
+          inf ("Short name:  %s\n", mcu_arch->shortname);
+          inf ("Description: %s\n", mcu_arch->description);
+          inf ("Asm syntax:  ");
           for (m = 0; m < mcu_arch->num_asm_fmts; m++)
           {
             inf ("%s", mcu_arch->asm_fmt[m]->fmt_shortname);
@@ -229,6 +231,12 @@ int
         sz = libmcu_arch_disasm (mcu_ctx, &dasm, code, 
             mcu_ctx->arch->opcode_max_size,
             infile->blocks[m]->start + offset);
+
+        if (sz == 0)
+        {
+          free (code);
+          goto g_exit;
+        }
 
         libmcu_asmprint (mcu_ctx, &dasm, mcu_fmt, mcu_mmap, stdout,
             LIBMCU_ASM_SHOW_OPCODE | LIBMCU_ASM_SHOW_ADDR);

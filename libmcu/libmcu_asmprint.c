@@ -274,6 +274,14 @@ uint32_t
       nchars = nchars + libmcu_str_length (ctx->arch->regname[opd->value]);
       break;
 
+    case MCU_OPD_TYPE_DOUBLE_REG:
+      fprintf (fd, "%s", ctx->arch->regname[opd->value&0xFF]);
+      nchars = nchars + libmcu_str_length (ctx->arch->regname[opd->value&0xFF]);
+      if (fmt->multi_reg != NULL)
+        fprintf (fd, "%s", fmt->multi_reg);
+      fprintf (fd, "%s", ctx->arch->regname[(opd->value&0xFF00)>>8]);
+      break;
+
     case MCU_OPD_TYPE_IMM:
       if (opd->size == MCU_OPD_SIZE_BYTE)
         idataregid = libmcu_mmap_idata_reg (map, opd->value);
@@ -392,8 +400,18 @@ uint32_t
           break;
 
         case MCU_DISPL_TYPE_IMM:
-          fprintf (fd, "%08X", (uint32_t)opd->displ.offset);
-          nchars = nchars + 8;
+          switch (ctx->arch->bus_size)
+          {
+            case MCU_ARCH_BUS_SIZE_16BIT:
+              fprintf (fd, "0x%04X", (uint32_t)opd->displ.offset);
+              nchars = nchars + 4 + 2;
+              break;
+
+            case MCU_ARCH_BUS_SIZE_32BIT:
+              fprintf (fd, "0x%08X", (uint32_t)opd->displ.offset);
+              nchars = nchars + 8 + 2;
+              break;
+          }
           break;
       }
       break;
