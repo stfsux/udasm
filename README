@@ -18,6 +18,7 @@ Supported architectures
 -----------------------
 
 - Intel 8051
+- ATMEL AVR 8(16)-bit
 
 Supported file format
 ---------------------

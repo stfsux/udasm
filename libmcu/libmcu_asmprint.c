@@ -289,6 +289,7 @@ uint32_t
         idataregbitid = libmcu_mmap_idata_reg_bit (map, opd->value);
 
       if (opd->flags & MCU_OPD_FLAGS_DIRECT &&
+          opd->bus == MCU_OPD_BUS_IDATA &&
           idataregid != LIBMCU_MMAP_UNMAPPED)
       {
         fprintf (fd, "%s",
@@ -298,6 +299,7 @@ uint32_t
             );
       }
       else if (opd->flags & MCU_OPD_FLAGS_DIRECT &&
+          opd->bus == MCU_OPD_BUS_IDATA &&
           idataregbitid != LIBMCU_MMAP_UNMAPPED)
       {
         fprintf (fd, "%s",

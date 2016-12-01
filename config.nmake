@@ -13,8 +13,8 @@ AR=lib.exe
 CP=copy
 MAKE=nmake
 
-SRC_FILES = $(UDASM_ROOT)/libmcu/libmcu_arch.c $(UDASM_ROOT)/libmcu/libmcu_asmprint.c $(UDASM_ROOT)/libmcu/libmcu_mmap.c $(UDASM_ROOT)/libmcu/libmcu_str.c $(UDASM_ROOT)/libmcu/win32/snprintf.c $(UDASM_ROOT)/libmcu/arch/i8051.c
-OBJ_FILES = $(UDASM_ROOT)/libmcu/libmcu_arch.obj $(UDASM_ROOT)/libmcu/libmcu_asmprint.obj $(UDASM_ROOT)/libmcu/libmcu_mmap.obj $(UDASM_ROOT)/libmcu/libmcu_str.obj $(UDASM_ROOT)/libmcu/win32/snprintf.obj $(UDASM_ROOT)/libmcu/arch/i8051.obj
+SRC_FILES = $(UDASM_ROOT)/libmcu/libmcu_arch.c $(UDASM_ROOT)/libmcu/libmcu_asmprint.c $(UDASM_ROOT)/libmcu/libmcu_mmap.c $(UDASM_ROOT)/libmcu/libmcu_str.c $(UDASM_ROOT)/libmcu/win32/snprintf.c $(UDASM_ROOT)/libmcu/arch/i8051.c $(UDASM_ROOT)/libmcu/arch/avr8.c
+OBJ_FILES = $(UDASM_ROOT)/libmcu/libmcu_arch.obj $(UDASM_ROOT)/libmcu/libmcu_asmprint.obj $(UDASM_ROOT)/libmcu/libmcu_mmap.obj $(UDASM_ROOT)/libmcu/libmcu_str.obj $(UDASM_ROOT)/libmcu/win32/snprintf.obj $(UDASM_ROOT)/libmcu/arch/i8051.obj $(UDASM_ROOT)/libmcu/arch/avr8.obj
 
 ARFLAGS = 
 CFLAGS = /I$(UDASM_ROOT)/libmcu /I$(LIBCONFIG_ROOT)/lib /I$(UDASM_ROOT)/libmcu/win32 /DLIBCONFIG_STATIC /Gm- /GS /MT

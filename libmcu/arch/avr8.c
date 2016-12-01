@@ -18,6 +18,8 @@
 /* sbr rd, k: same shit as ori rd, k                                */
 /* ser rd: same shit as ldi rd, 0xFF                                */
 /* tst rd: same shit as and rd, rd                                  */
+/* brbc s,k: same shit as brne, etc.                                */
+/* brbs s,k: same shit as breq, etc.                                */
 char* avr8_mnemonics[] = 
 {
    "add",    "adc",   "adiw",    "sub",   "subi",    "sbc",
@@ -87,7 +89,7 @@ static void
 {
   uint8_t rd = 0;
 
-  rd = (opcode&0x0030)>>4;
+  rd = ((opcode&0x0030)>>4) + AVR8_REG_R24;
 
   opd->type = MCU_OPD_TYPE_DOUBLE_REG;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -101,7 +103,7 @@ static void
 {
   uint8_t rd = 0;
 
-  rd = (opcode&0x00F0)>>4;
+  rd = (opcode&0x00F0)>>3;
 
   opd->type = MCU_OPD_TYPE_DOUBLE_REG;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -116,6 +118,7 @@ static void
   uint8_t rr = 0;
 
   rr = (opcode&0x000F);
+  rr = rr << 1;
 
   opd->type = MCU_OPD_TYPE_DOUBLE_REG;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -146,7 +149,7 @@ static void
 
   opd->type = MCU_OPD_TYPE_REGISTER;
   opd->size = MCU_OPD_SIZE_BYTE;
-  opd->value = AVR8_REG_GPO(rd);
+  opd->value = AVR8_REG_GPO(rd+AVR8_REG_R16);
 }
 
 /* ---------------------------------------------------------------- */
@@ -195,14 +198,15 @@ static void
 {
   uint64_t addr = 0;
   uint8_t addr7bit = 0;
+  int64_t rel = 0;
 
   addr7bit = ((opcode&0x03F8)>>3);
 
   if (addr7bit&0x40)
-    addr = ~(0x7F);
+    rel = ~(0x7F);
 
-  addr = addr | addr7bit;
-  addr = addr + dasm->addr;
+  rel = rel | addr7bit;
+  addr = rel*2 + dasm->addr + 2;
 
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -218,6 +222,7 @@ static void
 
   addr = ((opcode&0x01F00000)>>3) |
     (opcode&0x0001FFFF);
+  addr = addr << 1;
 
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -234,7 +239,7 @@ static void
   k = ((opcode&0x00F0)>>4);
 
   opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_DWORD;
+  opd->size = MCU_OPD_SIZE_BYTE;
   opd->value = k;
 }
 
@@ -284,11 +289,12 @@ static void
 {
   uint8_t a = 0;
 
-  a = ((opcode&0x0600)>>8) | (opcode&0x000F);
+  a = ((opcode&0x0600)>>5) | (opcode&0x000F);
 
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_BYTE;
   opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->bus = MCU_OPD_BUS_IDATA;
   opd->value = a;
 }
 
@@ -321,6 +327,7 @@ static void
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_WORD;
   opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->bus = MCU_OPD_BUS_IDATA;
   opd->value = k;
 }
 
@@ -331,6 +338,7 @@ static void
   uint16_t k = 0;
 
   k = ((opcode&0x0700)>>4) | (opcode&0x000F);
+  k = k << 1;
 
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -344,15 +352,16 @@ static void
      uint16_t opcode)
 {
   uint64_t addr = 0;
-  uint8_t addr12bit = 0;
+  int64_t rel = 0;
+  uint16_t addr12bit = 0;
 
   addr12bit = (opcode&0x0FFF);
 
   if (addr12bit&0x800)
-    addr = ~(0x7FF);
+    rel = ~(0x00000000000007FFull);
 
-  addr = addr | addr12bit;
-  addr = addr + dasm->addr;
+  rel = rel | addr12bit;
+  addr = (int64_t)((int64_t)rel*2 + dasm->addr + 2);
 
   opd->type = MCU_OPD_TYPE_IMM;
   opd->size = MCU_OPD_SIZE_WORD;
@@ -910,11 +919,12 @@ uint32_t
     case 0x9200:
       dasm->mnemonic = AVR8_INSN_STS;
       if (size < 4) return 0;
-      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[2]<<8) |
-        code[3];
+      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[3]<<8) |
+        code[2];
       dasm->nopd = 2;
       avr8_set_operand_k_16bit (&dasm->opd[0], large_opcode);
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
+      insn_size = 4;
       break;
 
       /* swap rd */
@@ -978,8 +988,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_CALL;
       dasm->nopd = 1;
       if (size < 4) return 0;
-      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[2]<<8) |
-        code[3];
+      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[3]<<8) |
+        code[2];
       avr8_set_operand_k_22bit (&dasm->opd[0], large_opcode);
       insn_size = 4;
       break;
@@ -989,8 +999,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_JMP;
       dasm->nopd = 1;
       if (size < 4) return 0;
-      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[2]<<8) |
-        code[3];
+      large_opcode = ((uint32_t)opcode<<16) | ((uint32_t)code[3]<<8) |
+        code[2];
       avr8_set_operand_k_22bit (&dasm->opd[0], large_opcode);
       insn_size = 4;
       break;
@@ -1260,6 +1270,7 @@ uint32_t
       break;
 
       /* brbc s,k */
+      /*
     case 0xF400:
       dasm->mnemonic = AVR8_INSN_BRBC;
       dasm->nopd = 2;
@@ -1267,14 +1278,17 @@ uint32_t
       avr8_set_operand_k_7bit_rel (dasm, &dasm->opd[1],
           opcode);
       break;
+      */
 
       /* brbs s,k */
+      /*
     case 0xF000:
       dasm->mnemonic = AVR8_INSN_BRBS;
       avr8_set_operand_b_3bit (&dasm->opd[0], opcode);
       avr8_set_operand_k_7bit_rel (dasm, &dasm->opd[1],
           opcode);
       break;
+      */
 
       /* eor rd, rr */
     case 0x2400:
@@ -1371,7 +1385,7 @@ uint32_t
       break;
 
       /* out a, rr */
-    case 0xD800:
+    case 0xB800:
       dasm->mnemonic = AVR8_INSN_OUT;
       dasm->nopd = 2;
       avr8_set_operand_a_6bit (&dasm->opd[0], opcode);
@@ -1470,7 +1484,7 @@ uint32_t
       /* rjmp k */
     case 0xC000:
       dasm->mnemonic = AVR8_INSN_RJMP;
-      dasm->nopd = 2;
+      dasm->nopd = 1;
       avr8_set_operand_k_12bit_rel (&dasm->opd[0], dasm, opcode);
       break;
 
