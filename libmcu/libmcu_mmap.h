@@ -39,18 +39,18 @@ typedef struct mcu_mmap_t
 }mcu_mmap_t;
 
 /* --------------------------------------------------------------- */
-mcu_mmap_t* libmcu_mmap_create (char* filename);
-uint8_t libmcu_mmap_check_syntax (mcu_ctx_t* ctx, mcu_mmap_t* map);
-uint32_t libmcu_mmap_idata_reg (mcu_mmap_t* map, uint64_t addr);
-uint32_t libmcu_mmap_idata_reg_bit (mcu_mmap_t* map, uint64_t addr);
-uint32_t libmcu_mmap_code_int (mcu_mmap_t* map, uint64_t addr);
-uint8_t libmcu_mmap_code_int_type (mcu_mmap_t* map, uint32_t n);
-uint64_t libmcu_mmap_code_int_size (mcu_mmap_t* map, uint32_t n);
-const char* libmcu_mmap_idata_reg_name (mcu_mmap_t* map, uint32_t n);
-const char* libmcu_mmap_idata_reg_bit_name (mcu_mmap_t* map, uint32_t n);
-const char* libmcu_mmap_code_int_name (mcu_mmap_t* map, uint32_t n);
+LIBMCU_CDECL mcu_mmap_t* libmcu_mmap_create (char* filename);
+LIBMCU_CDECL uint8_t libmcu_mmap_check_syntax (mcu_ctx_t* ctx, mcu_mmap_t* map);
+LIBMCU_CDECL uint32_t libmcu_mmap_idata_reg (mcu_mmap_t* map, uint64_t addr);
+LIBMCU_CDECL uint32_t libmcu_mmap_idata_reg_bit (mcu_mmap_t* map, uint64_t addr);
+LIBMCU_CDECL uint32_t libmcu_mmap_code_int (mcu_mmap_t* map, uint64_t addr);
+LIBMCU_CDECL uint8_t libmcu_mmap_code_int_type (mcu_mmap_t* map, uint32_t n);
+LIBMCU_CDECL uint64_t libmcu_mmap_code_int_size (mcu_mmap_t* map, uint32_t n);
+LIBMCU_CDECL const char* libmcu_mmap_idata_reg_name (mcu_mmap_t* map, uint32_t n);
+LIBMCU_CDECL const char* libmcu_mmap_idata_reg_bit_name (mcu_mmap_t* map, uint32_t n);
+LIBMCU_CDECL const char* libmcu_mmap_code_int_name (mcu_mmap_t* map, uint32_t n);
 #define libmcu_mmap_destroy(m) libmcu_mmap_destroy_safe (&m)
-void libmcu_mmap_destroy_safe (mcu_mmap_t** map);
+LIBMCU_CDECL void libmcu_mmap_destroy_safe (mcu_mmap_t** map);
 
 #endif
 

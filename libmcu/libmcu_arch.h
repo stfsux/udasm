@@ -43,11 +43,12 @@ typedef struct mcu_opd
 #define MCU_OPD_FLAGS_PREDEC    ((uint32_t)1<<5)
   uint8_t bus;
   /* Von Neumann arch. */
-#define MCU_OPD_BUS_WATEVER 0
+#define MCU_OPD_BUS_WATEVER     0
   /* Harvard / Harvard-mod arch. */
-#define MCU_OPD_BUS_CODE    1
-#define MCU_OPD_BUS_IDATA   2
-#define MCU_OPD_BUS_XDATA   3
+#define MCU_OPD_BUS_CODE        1
+#define MCU_OPD_BUS_IDATA       2
+#define MCU_OPD_BUS_XDATA       3
+#define MCU_OPD_BUS_IDATA_BITS  4
   uint64_t value;
   mcu_opd_disp_t displ;
 }mcu_opd_t;
@@ -186,19 +187,15 @@ typedef struct mcu_ctx
 #define LIBMCU_ARCH_AVR8  1
 
 /* ---------------------------------------------------------------- */
-extern mcu_arch_t i8051_arch;
-extern mcu_arch_t avr8_arch;
-
-/* ---------------------------------------------------------------- */
-mcu_ctx_t* libmcu_arch_create (uint8_t arch);
-uint8_t libmcu_arch_get_num_archs (void);
-mcu_arch_t* libmcu_arch_get (uint8_t num);
-uint32_t libmcu_arch_disasm (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
+LIBMCU_CDECL mcu_ctx_t* libmcu_arch_create (uint8_t arch);
+LIBMCU_CDECL uint8_t libmcu_arch_get_num_archs (void);
+LIBMCU_CDECL mcu_arch_t* libmcu_arch_get (uint8_t num);
+LIBMCU_CDECL uint32_t libmcu_arch_disasm (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
     uint8_t* code, uint32_t size, uint64_t addr);
-uint32_t libmcu_arch_disasm_ex (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
+LIBMCU_CDECL uint32_t libmcu_arch_disasm_ex (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
     uint8_t* code, uint32_t size, uint64_t addr, void* data);
 #define libmcu_arch_destroy(a) libmcu_arch_destroy_safe (&a)
-void libmcu_arch_destroy_safe (mcu_ctx_t** ctx);
+LIBMCU_CDECL void libmcu_arch_destroy_safe (mcu_ctx_t** ctx);
 
 #endif
 

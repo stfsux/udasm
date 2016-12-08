@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <ctype.h>
+#include "libmcu.h"
 
 /* Ignore escape sequences. */
 uint32_t

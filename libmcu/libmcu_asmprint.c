@@ -2,12 +2,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include <libconfig.h>
 
-#include "libmcu_arch.h"
-#include "libmcu_mmap.h"
-#include "libmcu_asmprint.h"
-#include "libmcu_str.h"
+#include "libmcu.h"
 #if defined(_WIN32)
 #include "snprintf.h"
 #endif

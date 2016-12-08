@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdint.h>
-#include "libmcu_arch.h"
+
+#include "libmcu.h"
 #include "i8051.h"
 
 /* ---------------------------------------------------------------- */
@@ -30,7 +31,7 @@ static uint32_t i8051_insn_id[] =
 {
   27,  3, 22, 35, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
   13,  0, 21, 36,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9,  9, 
-  12,  3, 31, 33,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+  13,  3, 31, 33,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
   17,  0, 32, 34,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
   15,  3, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28,
   18,  0,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, 4 ,  4,  4,  
@@ -235,11 +236,13 @@ static void
       dasm->opd[0].type = MCU_OPD_TYPE_IMM;
       dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
       dasm->opd[0].flags = MCU_OPD_FLAGS_DIRECT;
+      dasm->opd[0].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[0].value = code[1];
       dasm->opd[1].type = MCU_OPD_TYPE_IMM;
       dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
       /* ret */
@@ -490,6 +493,7 @@ static void
       dasm->opd[0].size = MCU_OPD_SIZE_WORD;
       dasm->opd[0].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[0].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[0].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0x72:
@@ -498,6 +502,7 @@ static void
       dasm->opd[0].value = I8051_REG_C;
       dasm->opd[1].type = MCU_OPD_TYPE_IMM;
       dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[1].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = code[1];
       break;
@@ -630,6 +635,7 @@ static void
       dasm->opd[0].value = I8051_REG_C;
       dasm->opd[1].type = MCU_OPD_TYPE_IMM;
       dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[1].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = code[1];
       break;
@@ -658,12 +664,12 @@ static void
       dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
       dasm->opd[0].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[0].bus = MCU_OPD_BUS_IDATA;
-      dasm->opd[0].value = code[1];
+      dasm->opd[0].value = code[2];
       dasm->opd[1].type = MCU_OPD_TYPE_IMM;
       dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].bus = MCU_OPD_BUS_IDATA;
-      dasm->opd[1].value = code[2];
+      dasm->opd[1].value = code[1];
       break;
 
     case 0x86:
@@ -789,11 +795,10 @@ static void
 
     case 0x92:
       dasm->opd[0].type = MCU_OPD_TYPE_IMM;
-      dasm->opd[0].size = MCU_OPD_SIZE_BIT;
       dasm->opd[0].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[0].value = code[1];
       dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BIT;
+      dasm->opd[1].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[1].value = I8051_REG_C;
       break;
 
@@ -915,10 +920,9 @@ static void
     case 0xA2:
     case 0xB0:
       dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BIT;
       dasm->opd[0].value = I8051_REG_C;
       dasm->opd[1].type = MCU_OPD_TYPE_IMM;
-      dasm->opd[1].size = MCU_OPD_SIZE_BIT;
+      dasm->opd[1].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = code[1];
       break;
@@ -1051,7 +1055,7 @@ static void
     case 0xC2:
     case 0xD2:
       dasm->opd[0].type = MCU_OPD_TYPE_IMM;
-      dasm->opd[0].size = MCU_OPD_SIZE_BIT;
+      dasm->opd[0].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[0].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[0].value = code[1];
       break;
@@ -1060,7 +1064,7 @@ static void
     case 0xC3:
     case 0xD3:
       dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BIT;
+      dasm->opd[0].bus = MCU_OPD_BUS_IDATA_BITS;
       dasm->opd[0].value = I8051_REG_C;
       break;
 
@@ -1075,6 +1079,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xB5:
@@ -1090,6 +1095,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xB6:
@@ -1104,6 +1110,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xB7:
@@ -1118,6 +1125,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xB8:
@@ -1131,6 +1139,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xB9:
@@ -1144,6 +1153,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBA:
@@ -1157,6 +1167,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBB:
@@ -1170,6 +1181,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBC:
@@ -1183,6 +1195,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBD:
@@ -1196,6 +1209,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBE:
@@ -1209,6 +1223,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xBF:
@@ -1222,6 +1237,7 @@ static void
       dasm->opd[2].size = MCU_OPD_SIZE_WORD;
       dasm->opd[2].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[2].value = (int8_t)code[2] + 3 + dasm->addr;
+      dasm->opd[2].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xC0:
@@ -1252,6 +1268,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xD8:
@@ -1262,6 +1279,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xD9:
@@ -1272,6 +1290,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xDA:
@@ -1282,6 +1301,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xDB:
@@ -1292,6 +1312,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
       
     case 0xDC:
@@ -1302,6 +1323,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xDD:
@@ -1312,6 +1334,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xDE:
@@ -1322,6 +1345,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xDF:
@@ -1332,6 +1356,7 @@ static void
       dasm->opd[1].size = MCU_OPD_SIZE_WORD;
       dasm->opd[1].flags = MCU_OPD_FLAGS_DIRECT;
       dasm->opd[1].value = (int8_t)code[1] + 2 + dasm->addr;
+      dasm->opd[1].bus = MCU_OPD_BUS_CODE;
       break;
 
     case 0xE0:
@@ -1648,10 +1673,10 @@ mcu_arch_t i8051_arch =
                          "disassembler.",
 
 /*  .mnemonics       =*/ i8051_mnemonics,
-/*  .ninsn           =*/ 0x00,
+/*  .ninsn           =*/ 45,
 
 /*  .regname         =*/ i8051_regname,
-/*  .nregs           =*/ 0x00,
+/*  .nregs           =*/ 13,
 
 /*  .bus_type        =*/ MCU_ARCH_BUS_HARVARD_MOD,
 /*  .bus_size        =*/ MCU_ARCH_BUS_SIZE_16BIT,

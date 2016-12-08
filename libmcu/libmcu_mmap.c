@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <libconfig.h>
 #include <string.h>
 
-#include "libmcu_arch.h"
-#include "libmcu_mmap.h"
+#include "libmcu.h"
 
 /* --------------------------------------------------------------- */
 mcu_mmap_t*

@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdint.h>
-#include "libmcu_arch.h"
+
+#include "libmcu.h"
+#include "arch/i8051.h"
+#include "arch/avr8.h"
 
 /* ---------------------------------------------------------------- */
 #define LIBMCU_NUM_ARCHS 2
@@ -137,7 +140,7 @@ uint32_t
 }
 
 /* ---------------------------------------------------------------- */
-void
+void 
  libmcu_arch_destroy_safe (mcu_ctx_t** ctx)
 {
   if (ctx == NULL) return;

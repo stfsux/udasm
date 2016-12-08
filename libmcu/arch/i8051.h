@@ -68,6 +68,7 @@ enum
   I8051_REG_AB
 };
 
+LIBMCU_CDECL mcu_arch_t i8051_arch;
 
 #endif
 

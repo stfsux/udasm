@@ -8,9 +8,7 @@
 #include <libconfig.h>
 
 /* --------------------------------------------------------------- */
-#include <libmcu_arch.h>
-#include <libmcu_mmap.h>
-#include <libmcu_asmprint.h>
+#include <libmcu.h>
 
 #include "udasm.h"
 #include "file.h"
