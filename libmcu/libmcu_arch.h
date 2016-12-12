@@ -4,12 +4,12 @@
 
 /* TODO: sign in disp struct. */
 
-typedef struct mcu_opd_disp
+typedef struct libmcu_opd_disp
 {
   uint8_t base_type;
-#define MCU_DISPL_TYPE_NONE 0
-#define MCU_DISPL_TYPE_REG  1
-#define MCU_DISPL_TYPE_IMM  2
+#define LIBMCU_DISPL_TYPE_NONE 0
+#define LIBMCU_DISPL_TYPE_REG  1
+#define LIBMCU_DISPL_TYPE_IMM  2
   uint64_t base;
 
   uint8_t mul_type;
@@ -17,58 +17,58 @@ typedef struct mcu_opd_disp
 
   uint8_t offset_type;
   uint64_t offset;
-}mcu_opd_disp_t;
+}libmcu_opd_disp_t;
 
-typedef struct mcu_opd
+typedef struct libmcu_opd
 {
   uint8_t type;
-#define MCU_OPD_TYPE_UNKNOWN    0
-#define MCU_OPD_TYPE_REGISTER   1
-#define MCU_OPD_TYPE_IMM        2
-#define MCU_OPD_TYPE_DISPL      3
-#define MCU_OPD_TYPE_DOUBLE_REG 4
+#define LIBMCU_OPD_TYPE_UNKNOWN    0
+#define LIBMCU_OPD_TYPE_REGISTER   1
+#define LIBMCU_OPD_TYPE_IMM        2
+#define LIBMCU_OPD_TYPE_DISPL      3
+#define LIBMCU_OPD_TYPE_DOUBLE_REG 4
   uint8_t size;
-#define MCU_OPD_SIZE_UNKNOWN  0
-#define MCU_OPD_SIZE_BYTE     1
-#define MCU_OPD_SIZE_WORD     2
-#define MCU_OPD_SIZE_DWORD    3
-#define MCU_OPD_SIZE_QWORD    4
-#define MCU_OPD_SIZE_BIT      5
+#define LIBMCU_OPD_SIZE_UNKNOWN  0
+#define LIBMCU_OPD_SIZE_BYTE     1
+#define LIBMCU_OPD_SIZE_WORD     2
+#define LIBMCU_OPD_SIZE_DWORD    3
+#define LIBMCU_OPD_SIZE_QWORD    4
+#define LIBMCU_OPD_SIZE_BIT      5
   uint32_t flags;
-#define MCU_OPD_FLAGS_DIRECT    ((uint32_t)1<<0)
-#define MCU_OPD_FLAGS_INDIRECT  ((uint32_t)1<<1)
-#define MCU_OPD_FLAGS_POSTINC   ((uint32_t)1<<2)
-#define MCU_OPD_FLAGS_PREINC    ((uint32_t)1<<3)
-#define MCU_OPD_FLAGS_POSTDEC   ((uint32_t)1<<4)
-#define MCU_OPD_FLAGS_PREDEC    ((uint32_t)1<<5)
+#define LIBMCU_OPD_FLAGS_DIRECT    ((uint32_t)1<<0)
+#define LIBMCU_OPD_FLAGS_INDIRECT  ((uint32_t)1<<1)
+#define LIBMCU_OPD_FLAGS_POSTINC   ((uint32_t)1<<2)
+#define LIBMCU_OPD_FLAGS_PREINC    ((uint32_t)1<<3)
+#define LIBMCU_OPD_FLAGS_POSTDEC   ((uint32_t)1<<4)
+#define LIBMCU_OPD_FLAGS_PREDEC    ((uint32_t)1<<5)
   uint8_t bus;
   /* Von Neumann arch. */
-#define MCU_OPD_BUS_WATEVER     0
+#define LIBMCU_OPD_BUS_WATEVER     0
   /* Harvard / Harvard-mod arch. */
-#define MCU_OPD_BUS_CODE        1
-#define MCU_OPD_BUS_IDATA       2
-#define MCU_OPD_BUS_XDATA       3
-#define MCU_OPD_BUS_IDATA_BITS  4
+#define LIBMCU_OPD_BUS_CODE        1
+#define LIBMCU_OPD_BUS_IDATA       2
+#define LIBMCU_OPD_BUS_XDATA       3
+#define LIBMCU_OPD_BUS_IDATA_BITS  4
   uint64_t value;
-  mcu_opd_disp_t displ;
-}mcu_opd_t;
+  libmcu_opd_disp_t displ;
+}libmcu_opd_t;
 
-typedef struct mcu_asm_fmt
+typedef struct libmcu_asm_fmt
 {
   char* fmt_name;
   char* fmt_shortname;
   uint8_t opcode_padding;
   uint8_t comm_padding;
   uint8_t dst_first;
-#define MCU_ASM_DST_UNKN  0
-#define MCU_ASM_DST_FIRST 1
-#define MCU_ASM_DST_LAST  2
+#define LIBMCU_ASM_DST_UNKN  0
+#define LIBMCU_ASM_DST_FIRST 1
+#define LIBMCU_ASM_DST_LAST  2
   uint8_t def_fmt;
-#define MCU_ASM_DEF_FORMAT_UNK  0
-#define MCU_ASM_DEF_FORMAT_HEX  1
-#define MCU_ASM_DEF_FORMAT_DEC  2
-#define MCU_ASM_DEF_FORMAT_BIN  3
-#define MCU_ASM_DEF_FORMAT_OCT  4
+#define LIBMCU_ASM_DEF_FORMAT_UNK  0
+#define LIBMCU_ASM_DEF_FORMAT_HEX  1
+#define LIBMCU_ASM_DEF_FORMAT_DEC  2
+#define LIBMCU_ASM_DEF_FORMAT_BIN  3
+#define LIBMCU_ASM_DEF_FORMAT_OCT  4
   char* insn_prefix;
   char* insn_suffix;
   char* register_prefix;
@@ -109,23 +109,23 @@ typedef struct mcu_asm_fmt
   char* comm_prefix;
   char* comm_suffix;
   char* multi_reg;
-}mcu_asm_fmt_t;
+}libmcu_asm_fmt_t;
 
-typedef struct mcu_dasm
+typedef struct libmcu_dasm
 {
   uint32_t mnemonic;
   uint8_t nopd;
-#define MCU_DASM_MAX_OPND 16
-  mcu_opd_t opd[MCU_DASM_MAX_OPND];
-#define MCU_DASM_OPND_DST_LAST  1
-#define MCU_DASM_OPND_DST_FIRST 2
+#define LIBMCU_DASM_MAX_OPND 16
+  libmcu_opd_t opd[LIBMCU_DASM_MAX_OPND];
+#define LIBMCU_DASM_OPND_DST_LAST  1
+#define LIBMCU_DASM_OPND_DST_FIRST 2
   uint8_t flags;
   uint32_t size;
   uint64_t addr;
   uint8_t* code;
-}mcu_dasm_t;
+}libmcu_dasm_t;
 
-typedef struct mcu_arch
+typedef struct libmcu_arch
 {
   /* arch plugin informations */
   char* name;
@@ -142,23 +142,23 @@ typedef struct mcu_arch
   uint32_t nregs;
 
   uint8_t bus_type;
-#define MCU_ARCH_BUS_UNKNOWN      0
+#define LIBMCU_ARCH_BUS_UNKNOWN      0
   /* Single bus for both code and memory. */
-#define MCU_ARCH_BUS_VONNEUMANN   1
+#define LIBMCU_ARCH_BUS_VONNEUMANN   1
   /* One bus for code and one for memory. */
   /* Instruction set cannot access to code address space. */
-#define MCU_ARCH_BUS_HARVARD      2
+#define LIBMCU_ARCH_BUS_HARVARD      2
   /* Instruction set is able to access two bus (code and memory). */
-#define MCU_ARCH_BUS_HARVARD_MOD  3
+#define LIBMCU_ARCH_BUS_HARVARD_MOD  3
   uint8_t bus_size;
-#define MCU_ARCH_BUS_SIZE_UNKN    0
-#define MCU_ARCH_BUS_SIZE_8BIT    1
-#define MCU_ARCH_BUS_SIZE_16BIT   2
-#define MCU_ARCH_BUS_SIZE_32BIT   3
-#define MCU_ARCH_BUS_SIZE_64BIT   4
+#define LIBMCU_ARCH_BUS_SIZE_UNKN    0
+#define LIBMCU_ARCH_BUS_SIZE_8BIT    1
+#define LIBMCU_ARCH_BUS_SIZE_16BIT   2
+#define LIBMCU_ARCH_BUS_SIZE_32BIT   3
+#define LIBMCU_ARCH_BUS_SIZE_64BIT   4
 
   /* disassembler functions */
-  uint32_t (*predisasm)(mcu_dasm_t* dasm, uint8_t* code,
+  uint32_t (*predisasm)(libmcu_dasm_t* dasm, uint8_t* code,
       uint32_t size, void* data);
   /* disasm: */
   /* must returns size of the instruction. */
@@ -167,35 +167,36 @@ typedef struct mcu_arch
   /*  - size of the instruction into dasm->size. */
   /* if you don't fill these fields it will explode. */
   /* So do it, you mofo. */
-  uint32_t (*disasm)(mcu_dasm_t* dasm, uint8_t* code, uint32_t size,
+  uint32_t (*disasm)(libmcu_dasm_t* dasm, uint8_t* code, uint32_t size,
       uint64_t addr);
-  uint32_t (*postdisasm)(mcu_dasm_t* dasm, uint8_t* code,
+  uint32_t (*postdisasm)(libmcu_dasm_t* dasm, uint8_t* code,
       uint32_t size, void* data);
 
-  mcu_asm_fmt_t** asm_fmt;
+  libmcu_asm_fmt_t** asm_fmt;
   uint8_t num_asm_fmts;
   uint32_t opcode_max_size;
-}mcu_arch_t;
+}libmcu_arch_t;
 
-typedef struct mcu_ctx
+typedef struct libmcu_ctx
 {
-  mcu_arch_t* arch;
-}mcu_ctx_t;
+  libmcu_arch_t* arch;
+}libmcu_ctx_t;
 
 /* ---------------------------------------------------------------- */
 #define LIBMCU_ARCH_I8051 0
 #define LIBMCU_ARCH_AVR8  1
 
 /* ---------------------------------------------------------------- */
-LIBMCU_CDECL mcu_ctx_t* libmcu_arch_create (uint8_t arch);
+LIBMCU_CDECL libmcu_ctx_t* libmcu_arch_create (uint8_t arch);
 LIBMCU_CDECL uint8_t libmcu_arch_get_num_archs (void);
-LIBMCU_CDECL mcu_arch_t* libmcu_arch_get (uint8_t num);
-LIBMCU_CDECL uint32_t libmcu_arch_disasm (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
-    uint8_t* code, uint32_t size, uint64_t addr);
-LIBMCU_CDECL uint32_t libmcu_arch_disasm_ex (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
-    uint8_t* code, uint32_t size, uint64_t addr, void* data);
+LIBMCU_CDECL libmcu_arch_t* libmcu_arch_get (uint8_t num);
+LIBMCU_CDECL uint32_t libmcu_arch_disasm (libmcu_ctx_t* ctx,
+    libmcu_dasm_t* dasm, uint8_t* code, uint32_t size, uint64_t addr);
+LIBMCU_CDECL uint32_t libmcu_arch_disasm_ex (libmcu_ctx_t* ctx,
+    libmcu_dasm_t* dasm, uint8_t* code, uint32_t size,
+    uint64_t addr, void* data);
 #define libmcu_arch_destroy(a) libmcu_arch_destroy_safe (&a)
-LIBMCU_CDECL void libmcu_arch_destroy_safe (mcu_ctx_t** ctx);
+LIBMCU_CDECL void libmcu_arch_destroy_safe (libmcu_ctx_t** ctx);
 
 #endif
 

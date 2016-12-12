@@ -10,8 +10,9 @@
 
 /* --------------------------------------------------------------- */
 void
- libmcu_asmprint (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
-     mcu_asm_fmt_t* fmt, mcu_mmap_t* map, FILE* fd, uint32_t flags)
+ libmcu_asmprint (libmcu_ctx_t* ctx, libmcu_dasm_t* dasm,
+     libmcu_asm_fmt_t* fmt, libmcu_mmap_t* map, FILE* fd,
+      uint32_t flags)
 {
   uint32_t n = 0;
   uint32_t intcode = 0;
@@ -63,22 +64,22 @@ void
   {
     switch (ctx->arch->bus_size)
     {
-      case MCU_ARCH_BUS_SIZE_8BIT:
+      case LIBMCU_ARCH_BUS_SIZE_8BIT:
         fprintf (fd, "0x%02X", (uint8_t)dasm->addr);
         nchars = nchars + 4;
         break;
 
-      case MCU_ARCH_BUS_SIZE_16BIT:
+      case LIBMCU_ARCH_BUS_SIZE_16BIT:
         fprintf (fd, "0x%04X", (uint16_t)dasm->addr);
         nchars = nchars + 6;
         break;
 
-      case MCU_ARCH_BUS_SIZE_32BIT:
+      case LIBMCU_ARCH_BUS_SIZE_32BIT:
         fprintf (fd, "0x%08X", (uint32_t)dasm->addr);
         nchars = nchars + 10;
         break;
 
-      case MCU_ARCH_BUS_SIZE_64BIT:
+      case LIBMCU_ARCH_BUS_SIZE_64BIT:
         fprintf (fd, "0x%016lX", dasm->addr);
         nchars = nchars + 18;
         break;
@@ -168,8 +169,8 @@ void
 
 /* --------------------------------------------------------------- */
 uint32_t
- libmcu_asmprint_opd (mcu_ctx_t* ctx, mcu_opd_t* opd,
-     mcu_asm_fmt_t* fmt, mcu_mmap_t* map, FILE* fd)
+ libmcu_asmprint_opd (libmcu_ctx_t* ctx, libmcu_opd_t* opd,
+     libmcu_asm_fmt_t* fmt, libmcu_mmap_t* map, FILE* fd)
 {
   uint32_t idataregid = LIBMCU_MMAP_UNMAPPED;
   uint32_t idataregbitid = LIBMCU_MMAP_UNMAPPED;
@@ -182,7 +183,7 @@ uint32_t
   /* print size prefix. */
   switch (opd->size)
   {
-    case MCU_OPD_SIZE_BYTE:
+    case LIBMCU_OPD_SIZE_BYTE:
       if (fmt->size_byte_prefix != NULL)
       {
         fprintf (fd, "%s", fmt->size_byte_prefix);
@@ -190,7 +191,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_WORD:
+    case LIBMCU_OPD_SIZE_WORD:
       if (fmt->size_word_prefix != NULL)
       {
         fprintf (fd, "%s", fmt->size_word_prefix);
@@ -198,7 +199,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_DWORD:
+    case LIBMCU_OPD_SIZE_DWORD:
       if (fmt->size_dword_prefix != NULL)
       {
         fprintf (fd, "%s", fmt->size_dword_prefix);
@@ -206,7 +207,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_QWORD:
+    case LIBMCU_OPD_SIZE_QWORD:
       if (fmt->size_qword_prefix != NULL)
       {
         fprintf (fd, "%s", fmt->size_qword_prefix);
@@ -216,7 +217,7 @@ uint32_t
   }
 
   /* print special prefix. */
-  if (opd->flags & MCU_OPD_FLAGS_DIRECT)
+  if (opd->flags & LIBMCU_OPD_FLAGS_DIRECT)
   {
     if (fmt->direct_prefix != NULL)
     {
@@ -224,7 +225,7 @@ uint32_t
       nchars = nchars + libmcu_str_length (fmt->direct_prefix);
     }
   }
-  if (opd->flags & MCU_OPD_FLAGS_INDIRECT)
+  if (opd->flags & LIBMCU_OPD_FLAGS_INDIRECT)
   {
     if (fmt->indirect_prefix != NULL)
     {
@@ -234,7 +235,7 @@ uint32_t
   }
   switch (opd->type)
   {
-    case MCU_OPD_TYPE_REGISTER:
+    case LIBMCU_OPD_TYPE_REGISTER:
       if (fmt->register_prefix != NULL && opd->flags == 0)
       {
         fprintf (fd, "%s", fmt->register_prefix);
@@ -242,8 +243,8 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_TYPE_IMM:
-      if (!(opd->flags & MCU_OPD_FLAGS_DIRECT))
+    case LIBMCU_OPD_TYPE_IMM:
+      if (!(opd->flags & LIBMCU_OPD_FLAGS_DIRECT))
       {
         if (fmt->immediat_prefix != NULL)
         {
@@ -253,7 +254,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_TYPE_DISPL:
+    case LIBMCU_OPD_TYPE_DISPL:
       if (fmt->displ_prefix != NULL)
       {
         fprintf (fd, "%s", fmt->displ_prefix);
@@ -265,12 +266,12 @@ uint32_t
   /* print value. */
   switch (opd->type)
   {
-    case MCU_OPD_TYPE_REGISTER:
+    case LIBMCU_OPD_TYPE_REGISTER:
       fprintf (fd, "%s", ctx->arch->regname[opd->value]);
       nchars = nchars + libmcu_str_length (ctx->arch->regname[opd->value]);
       break;
 
-    case MCU_OPD_TYPE_DOUBLE_REG:
+    case LIBMCU_OPD_TYPE_DOUBLE_REG:
       fprintf (fd, "%s", ctx->arch->regname[opd->value&0xFF]);
       nchars = nchars + libmcu_str_length (ctx->arch->regname[opd->value&0xFF]);
       if (fmt->multi_reg != NULL)
@@ -278,14 +279,14 @@ uint32_t
       fprintf (fd, "%s", ctx->arch->regname[(opd->value&0xFF00)>>8]);
       break;
 
-    case MCU_OPD_TYPE_IMM:
-      if (opd->size == MCU_OPD_SIZE_BYTE)
+    case LIBMCU_OPD_TYPE_IMM:
+      if (opd->size == LIBMCU_OPD_SIZE_BYTE)
         idataregid = libmcu_mmap_idata_reg (map, opd->value);
-      else if (opd->size == MCU_OPD_SIZE_BIT)
+      else if (opd->size == LIBMCU_OPD_SIZE_BIT)
         idataregbitid = libmcu_mmap_idata_reg_bit (map, opd->value);
 
-      if (opd->flags & MCU_OPD_FLAGS_DIRECT &&
-          opd->bus == MCU_OPD_BUS_IDATA &&
+      if (opd->flags & LIBMCU_OPD_FLAGS_DIRECT &&
+          opd->bus == LIBMCU_OPD_BUS_IDATA &&
           idataregid != LIBMCU_MMAP_UNMAPPED)
       {
         fprintf (fd, "%s",
@@ -294,8 +295,8 @@ uint32_t
             (char*)libmcu_mmap_idata_reg_name (map, idataregid)
             );
       }
-      else if (opd->flags & MCU_OPD_FLAGS_DIRECT &&
-          opd->bus == MCU_OPD_BUS_IDATA &&
+      else if (opd->flags & LIBMCU_OPD_FLAGS_DIRECT &&
+          opd->bus == LIBMCU_OPD_BUS_IDATA &&
           idataregbitid != LIBMCU_MMAP_UNMAPPED)
       {
         fprintf (fd, "%s",
@@ -313,22 +314,22 @@ uint32_t
         }
         switch (opd->size)
         {
-          case MCU_OPD_SIZE_BYTE:
+          case LIBMCU_OPD_SIZE_BYTE:
             fprintf (fd, "%02X", (uint8_t)opd->value);
             nchars = nchars + 2;
             break;
 
-          case MCU_OPD_SIZE_WORD:
+          case LIBMCU_OPD_SIZE_WORD:
             fprintf (fd, "%04X", (uint16_t)opd->value);
             nchars = nchars + 4;
             break;
 
-          case MCU_OPD_SIZE_DWORD:
+          case LIBMCU_OPD_SIZE_DWORD:
             fprintf (fd, "%08X", (uint32_t)opd->value);
             nchars = nchars + 8;
             break;
 
-          case MCU_OPD_SIZE_QWORD:
+          case LIBMCU_OPD_SIZE_QWORD:
             fprintf (fd, "%016lX", opd->value);
             nchars = nchars + 16;
             break;
@@ -341,18 +342,18 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_TYPE_DISPL:
+    case LIBMCU_OPD_TYPE_DISPL:
       /* base. */
       switch (opd->displ.base_type)
       {
-        case MCU_DISPL_TYPE_REG:
+        case LIBMCU_DISPL_TYPE_REG:
           fprintf (fd, "%s", ctx->arch->regname[opd->displ.base]);
           nchars = nchars + libmcu_str_length (
               ctx->arch->regname[opd->displ.base]
               );
           break;
 
-        case MCU_DISPL_TYPE_IMM:
+        case LIBMCU_DISPL_TYPE_IMM:
           fprintf (fd, "%08X", (uint32_t)opd->displ.base);
           nchars = nchars + 8;
           break;
@@ -367,14 +368,14 @@ uint32_t
 
       switch (opd->displ.mul_type)
       {
-        case MCU_DISPL_TYPE_REG:
+        case LIBMCU_DISPL_TYPE_REG:
           fprintf (fd, "%s", ctx->arch->regname[opd->displ.mul]);
           nchars = nchars + libmcu_str_length (
               ctx->arch->regname[opd->displ.mul]
               );
           break;
 
-        case MCU_DISPL_TYPE_IMM:
+        case LIBMCU_DISPL_TYPE_IMM:
           fprintf (fd, "%08X", (uint32_t)opd->displ.mul);
           nchars = nchars + 8;
           break;
@@ -390,22 +391,22 @@ uint32_t
 
       switch (opd->displ.offset_type)
       {
-        case MCU_DISPL_TYPE_REG:
+        case LIBMCU_DISPL_TYPE_REG:
           fprintf (fd, "%s", ctx->arch->regname[opd->displ.offset]);
           nchars = nchars + libmcu_str_length (
               ctx->arch->regname[opd->displ.mul]
               );
           break;
 
-        case MCU_DISPL_TYPE_IMM:
+        case LIBMCU_DISPL_TYPE_IMM:
           switch (ctx->arch->bus_size)
           {
-            case MCU_ARCH_BUS_SIZE_16BIT:
+            case LIBMCU_ARCH_BUS_SIZE_16BIT:
               fprintf (fd, "0x%04X", (uint32_t)opd->displ.offset);
               nchars = nchars + 4 + 2;
               break;
 
-            case MCU_ARCH_BUS_SIZE_32BIT:
+            case LIBMCU_ARCH_BUS_SIZE_32BIT:
               fprintf (fd, "0x%08X", (uint32_t)opd->displ.offset);
               nchars = nchars + 8 + 2;
               break;
@@ -416,7 +417,7 @@ uint32_t
   }
 
   /* print special suffix. */
-  if (opd->flags & MCU_OPD_FLAGS_DIRECT)
+  if (opd->flags & LIBMCU_OPD_FLAGS_DIRECT)
   {
     if (fmt->direct_suffix != NULL)
     {
@@ -424,7 +425,7 @@ uint32_t
       nchars = nchars + libmcu_str_length (fmt->direct_suffix);
     }
   }
-  if (opd->flags & MCU_OPD_FLAGS_INDIRECT)
+  if (opd->flags & LIBMCU_OPD_FLAGS_INDIRECT)
   {
     if (fmt->indirect_suffix != NULL)
     {
@@ -434,7 +435,7 @@ uint32_t
   }
   switch (opd->type)
   {
-    case MCU_OPD_TYPE_REGISTER:
+    case LIBMCU_OPD_TYPE_REGISTER:
       if (fmt->register_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->register_suffix);
@@ -442,8 +443,8 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_TYPE_IMM:
-      if (!(opd->flags & MCU_OPD_FLAGS_DIRECT))
+    case LIBMCU_OPD_TYPE_IMM:
+      if (!(opd->flags & LIBMCU_OPD_FLAGS_DIRECT))
       {
         if (fmt->immediat_suffix != NULL)
         {
@@ -453,7 +454,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_TYPE_DISPL:
+    case LIBMCU_OPD_TYPE_DISPL:
       if (fmt->displ_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->displ_suffix);
@@ -465,7 +466,7 @@ uint32_t
   /* print size suffix. */
   switch (opd->size)
   {
-    case MCU_OPD_SIZE_BYTE:
+    case LIBMCU_OPD_SIZE_BYTE:
       if (fmt->size_byte_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->size_byte_suffix);
@@ -473,7 +474,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_WORD:
+    case LIBMCU_OPD_SIZE_WORD:
       if (fmt->size_word_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->size_word_suffix);
@@ -481,7 +482,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_DWORD:
+    case LIBMCU_OPD_SIZE_DWORD:
       if (fmt->size_dword_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->size_dword_suffix);
@@ -489,7 +490,7 @@ uint32_t
       }
       break;
 
-    case MCU_OPD_SIZE_QWORD:
+    case LIBMCU_OPD_SIZE_QWORD:
       if (fmt->size_qword_suffix != NULL)
       {
         fprintf (fd, "%s", fmt->size_qword_suffix);
@@ -502,8 +503,8 @@ uint32_t
 
 /* --------------------------------------------------------------- */
 uint32_t
- libmcu_asmprint_data (FILE* fd, mcu_asm_fmt_t* fmt, uint8_t* data,
-     uint32_t size)
+ libmcu_asmprint_data (FILE* fd, libmcu_asm_fmt_t* fmt,
+     uint8_t* data, uint32_t size)
 {
   uint32_t nchars = 0;
   uint8_t byte = 0;

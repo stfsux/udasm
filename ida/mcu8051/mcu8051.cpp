@@ -4,9 +4,7 @@
 #include <loader.hpp>
 #include <stdint.h>
 
-#include <libconfig.h>
-#include <libmcu_arch.h>
-#include <libmcu_mmap.h>
+#include <libmcu.h>
 #include <arch/i8051.h>
 
 #include "ana.hpp"
@@ -17,8 +15,8 @@
 #include "mcu8051.hpp"
 
 char* g_libmcu_cfg = NULL;
-mcu_mmap_t* g_libmcu_mmap = NULL;
-mcu_ctx_t* g_libmcu_ctx = NULL;
+libmcu_mmap_t* g_libmcu_mmap = NULL;
+libmcu_ctx_t* g_libmcu_ctx = NULL;
 
 static int idaapi
  mcu8051_notify (processor_t::idp_notify msgid, ...)

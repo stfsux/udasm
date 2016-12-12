@@ -7,14 +7,14 @@
 #include "libmcu.h"
 
 /* --------------------------------------------------------------- */
-mcu_mmap_t*
+libmcu_mmap_t*
  libmcu_mmap_create (char* filename)
 {
-  mcu_mmap_t* map = NULL;
+  libmcu_mmap_t* map = NULL;
 
   if (filename == NULL) return NULL;
 
-  map = calloc (1, sizeof(mcu_mmap_t));
+  map = calloc (1, sizeof(libmcu_mmap_t));
   if (map == NULL) return NULL;
 
   memset (&map->error, 0, sizeof(map->error));
@@ -34,7 +34,7 @@ mcu_mmap_t*
 
 /* --------------------------------------------------------------- */
 uint8_t
- libmcu_mmap_check_syntax (mcu_ctx_t* ctx, mcu_mmap_t* map)
+ libmcu_mmap_check_syntax (libmcu_ctx_t* ctx, libmcu_mmap_t* map)
 {
   uint32_t n = 0;
   config_setting_t* s = NULL;
@@ -228,7 +228,7 @@ uint8_t
 
 /* --------------------------------------------------------------- */
 uint32_t
- libmcu_mmap_idata_reg (mcu_mmap_t* map, uint64_t addr)
+ libmcu_mmap_idata_reg (libmcu_mmap_t* map, uint64_t addr)
 {
   uint32_t n = 0;
   config_setting_t* s = NULL;
@@ -247,7 +247,7 @@ uint32_t
 
 /* --------------------------------------------------------------- */
 uint32_t
- libmcu_mmap_idata_reg_bit (mcu_mmap_t* map, uint64_t addr)
+ libmcu_mmap_idata_reg_bit (libmcu_mmap_t* map, uint64_t addr)
 {
   uint32_t n = 0;
   config_setting_t* s = NULL;
@@ -266,7 +266,7 @@ uint32_t
 
 /* --------------------------------------------------------------- */
 uint32_t
- libmcu_mmap_code_int (mcu_mmap_t* map, uint64_t addr)
+ libmcu_mmap_code_int (libmcu_mmap_t* map, uint64_t addr)
 {
   uint32_t n = 0;
   config_setting_t* s = NULL;
@@ -284,7 +284,7 @@ uint32_t
 
 /* --------------------------------------------------------------- */
 uint64_t
- libmcu_mmap_code_int_size (mcu_mmap_t* map, uint32_t n)
+ libmcu_mmap_code_int_size (libmcu_mmap_t* map, uint32_t n)
 {
   (void)map;
   (void)n;
@@ -294,7 +294,7 @@ uint64_t
 
 /* --------------------------------------------------------------- */
 uint8_t
- libmcu_mmap_code_int_type (mcu_mmap_t* map, uint32_t n)
+ libmcu_mmap_code_int_type (libmcu_mmap_t* map, uint32_t n)
 {
   config_setting_t* s = NULL;
   const char* str = NULL;
@@ -314,7 +314,7 @@ uint8_t
 
 /* --------------------------------------------------------------- */
 const char*
- libmcu_mmap_idata_reg_name (mcu_mmap_t* map, uint32_t n)
+ libmcu_mmap_idata_reg_name (libmcu_mmap_t* map, uint32_t n)
 {
   config_setting_t* s = NULL;
 
@@ -324,7 +324,7 @@ const char*
 
 /* --------------------------------------------------------------- */
 const char*
- libmcu_mmap_idata_reg_bit_name (mcu_mmap_t* map, uint32_t n)
+ libmcu_mmap_idata_reg_bit_name (libmcu_mmap_t* map, uint32_t n)
 {
   config_setting_t* s = NULL;
 
@@ -334,7 +334,7 @@ const char*
 
 /* --------------------------------------------------------------- */
 const char*
- libmcu_mmap_code_int_name (mcu_mmap_t* map, uint32_t n)
+ libmcu_mmap_code_int_name (libmcu_mmap_t* map, uint32_t n)
 {
   config_setting_t* s = NULL;
 
@@ -347,7 +347,7 @@ const char*
 
 /* --------------------------------------------------------------- */
 void
- libmcu_mmap_destroy_safe (mcu_mmap_t** map)
+ libmcu_mmap_destroy_safe (libmcu_mmap_t** map)
 {
   if (map == NULL) return;
   if (*map == NULL) return;

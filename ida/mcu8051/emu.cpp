@@ -4,9 +4,7 @@
 #include <loader.hpp>
 #include <stdint.h>
 
-#include <libconfig.h>
-#include <libmcu_arch.h>
-#include <libmcu_mmap.h>
+#include <libmcu.h>
 #include <arch/i8051.h>
 
 #define MCU8051_NCOND_INSN 9

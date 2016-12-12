@@ -3,15 +3,13 @@
 #include <idp.hpp>
 #include <stdint.h>
 
-#include <libconfig.h>
-#include <libmcu_arch.h>
-#include <libmcu_mmap.h>
+#include <libmcu.h>
 #include <arch/i8051.h>
 
 #include "ins.hpp"
 #include "mcu8051.hpp"
 
-#define MAXOPCODE i8051_arch.opcode_max_size
+#define MAXOPCODE __g_libmcu_internal_i8051_arch.opcode_max_size
 
 int idaapi
  mcu8051_ana (void)
@@ -19,7 +17,7 @@ int idaapi
   uint8_t* code_buffer = NULL;
   uint32_t n = 0;
   uint32_t size = 0;
-  mcu_dasm_t dasm;
+  libmcu_dasm_t dasm;
   ea_t current_ea = cmd.ea;
 
   code_buffer = (uint8_t*)calloc (MAXOPCODE, sizeof(uint8_t));

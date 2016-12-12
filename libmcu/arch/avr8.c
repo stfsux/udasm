@@ -60,142 +60,142 @@ char* avr8_regname[] =
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rd_5bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rd_5bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rd = 0;
 
   rd = (opcode&0x01F0)>>4;
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rd);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rr_5bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rr_5bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rr = 0;
 
   rr = (opcode&0x000F) | ((opcode&0x0200)>>5);
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rr);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rd_double_2bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rd_double_2bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rd = 0;
 
   rd = ((opcode&0x0030)>>4) + AVR8_REG_R24;
 
-  opd->type = MCU_OPD_TYPE_DOUBLE_REG;
-  opd->size = MCU_OPD_SIZE_WORD;
+  opd->type = LIBMCU_OPD_TYPE_DOUBLE_REG;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
   opd->value = (AVR8_REG_GPO((rd+1))) |
     (AVR8_REG_GPO(((uint16_t)rd<<8)));
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rd_double_4bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rd_double_4bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rd = 0;
 
   rd = (opcode&0x00F0)>>3;
 
-  opd->type = MCU_OPD_TYPE_DOUBLE_REG;
-  opd->size = MCU_OPD_SIZE_WORD;
+  opd->type = LIBMCU_OPD_TYPE_DOUBLE_REG;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
   opd->value = (AVR8_REG_GPO((rd+1))) |
     (AVR8_REG_GPO(((uint16_t)rd<<8)));
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rr_double_4bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rr_double_4bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rr = 0;
 
   rr = (opcode&0x000F);
   rr = rr << 1;
 
-  opd->type = MCU_OPD_TYPE_DOUBLE_REG;
-  opd->size = MCU_OPD_SIZE_WORD;
+  opd->type = LIBMCU_OPD_TYPE_DOUBLE_REG;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
   opd->value = (AVR8_REG_GPO((rr+1))) |
     (AVR8_REG_GPO(((uint16_t)rr<<8)));
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_6bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_k_6bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t k = 0;
 
   k = ((opcode&0x00C0)>>2) | (opcode&0x000F);
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = k;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rd_4bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rd_4bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rd = 0;
 
   rd = (opcode&0x00F0)>>4;
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rd+AVR8_REG_R16);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rr_4bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rr_4bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rr = 0;
 
   rr = (opcode&0x000F);
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rr);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_8bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_k_8bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t k = 0;
 
   k = ((opcode&0x0F00)>>4) | (opcode&0x000F);
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = k;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_b_3bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_b_3bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t b = 0;
 
   b = opcode&0x0007;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = b;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_7bit_rel (mcu_dasm_t* dasm, 
-     mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_k_7bit_rel (libmcu_dasm_t* dasm, 
+     libmcu_opd_t* opd, uint16_t opcode)
 {
   uint64_t addr = 0;
   uint8_t addr7bit = 0;
@@ -209,15 +209,15 @@ static void
   rel = rel | addr7bit;
   addr = rel*2 + dasm->addr + 2;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_WORD;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
   opd->value = addr;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_22bit (mcu_opd_t* opd, uint32_t opcode)
+ avr8_set_operand_k_22bit (libmcu_opd_t* opd, uint32_t opcode)
 {
   uint64_t addr = 0;
 
@@ -225,83 +225,83 @@ static void
     (opcode&0x0001FFFF);
   addr = addr << 1;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_WORD;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
   opd->value = addr;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_4bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_k_4bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t k = 0;
 
   k = ((opcode&0x00F0)>>4);
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = k;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_a_5bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_a_5bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t addr = 0;
 
   addr = (opcode&0x00F8)>>3;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
   opd->value = addr;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rd_3bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rd_3bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rd = 0;
 
   rd = ((opcode&0x0070)>>4);
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rd);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_rr_3bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_rr_3bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t rr = 0;
 
   rr = (opcode&0x0007);
 
-  opd->type = MCU_OPD_TYPE_REGISTER;
-  opd->size = MCU_OPD_SIZE_BYTE;
+  opd->type = LIBMCU_OPD_TYPE_REGISTER;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
   opd->value = AVR8_REG_GPO(rr);
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_a_6bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_a_6bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint8_t a = 0;
 
   a = ((opcode&0x0600)>>5) | (opcode&0x000F);
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_BYTE;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
-  opd->bus = MCU_OPD_BUS_IDATA;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
+  opd->bus = LIBMCU_OPD_BUS_IDATA;
   opd->value = a;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_q_6bit (mcu_opd_t* opd, uint64_t reg,
+ avr8_set_operand_q_6bit (libmcu_opd_t* opd, uint64_t reg,
     uint16_t opcode)
 {
   uint8_t q = 0;
@@ -309,47 +309,47 @@ static void
   q = ((opcode&0x2000)>>8) | ((opcode&0x0C00)>>7) |
     (opcode&0x0007);
 
-  opd->type = MCU_OPD_TYPE_DISPL;
-  opd->size = MCU_OPD_SIZE_BYTE;
-  opd->displ.base_type = MCU_DISPL_TYPE_REG;
+  opd->type = LIBMCU_OPD_TYPE_DISPL;
+  opd->size = LIBMCU_OPD_SIZE_BYTE;
+  opd->displ.base_type = LIBMCU_DISPL_TYPE_REG;
   opd->displ.base = reg;
-  opd->displ.offset_type = MCU_DISPL_TYPE_IMM;
+  opd->displ.offset_type = LIBMCU_DISPL_TYPE_IMM;
   opd->displ.offset = q;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_16bit (mcu_opd_t* opd, uint32_t opcode)
+ avr8_set_operand_k_16bit (libmcu_opd_t* opd, uint32_t opcode)
 {
   uint16_t k = 0;
 
   k = opcode&0x0000FFFF;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_WORD;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
-  opd->bus = MCU_OPD_BUS_IDATA;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
+  opd->bus = LIBMCU_OPD_BUS_IDATA;
   opd->value = k;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_7bit (mcu_opd_t* opd, uint16_t opcode)
+ avr8_set_operand_k_7bit (libmcu_opd_t* opd, uint16_t opcode)
 {
   uint16_t k = 0;
 
   k = ((opcode&0x0700)>>4) | (opcode&0x000F);
   k = k << 1;
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_WORD;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
   opd->value = k;
 }
 
 /* ---------------------------------------------------------------- */
 static void
- avr8_set_operand_k_12bit_rel (mcu_opd_t* opd, mcu_dasm_t* dasm,
+ avr8_set_operand_k_12bit_rel (libmcu_opd_t* opd, libmcu_dasm_t* dasm,
      uint16_t opcode)
 {
   uint64_t addr = 0;
@@ -364,16 +364,16 @@ static void
   rel = rel | addr12bit;
   addr = (int64_t)((int64_t)rel*2 + dasm->addr + 2);
 
-  opd->type = MCU_OPD_TYPE_IMM;
-  opd->size = MCU_OPD_SIZE_WORD;
-  opd->flags = MCU_OPD_FLAGS_DIRECT;
+  opd->type = LIBMCU_OPD_TYPE_IMM;
+  opd->size = LIBMCU_OPD_SIZE_WORD;
+  opd->flags = LIBMCU_OPD_FLAGS_DIRECT;
   opd->value = addr;
 }
 
 /* ---------------------------------------------------------------- */
 /* CBR is missing. Prolly a pseudo-instruction? */
 uint32_t
- avr8_disasm (mcu_dasm_t* dasm, uint8_t* code, uint32_t size,
+ avr8_disasm (libmcu_dasm_t* dasm, uint8_t* code, uint32_t size,
      uint64_t addr)
 {
   uint16_t opcode = 0;
@@ -453,11 +453,11 @@ uint32_t
     case 0x95D8:
       dasm->mnemonic = AVR8_INSN_ELPM;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[0].value = AVR8_REG_R0;
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -540,8 +540,8 @@ uint32_t
     case 0x95E8:
       dasm->mnemonic = AVR8_INSN_SPM;
       dasm->nopd = 1;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[0].value = AVR8_REG_Z;
       break;
 
@@ -549,9 +549,9 @@ uint32_t
     case 0x95F8:
       dasm->mnemonic = AVR8_INSN_SPM;
       dasm->nopd = 1;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[0].value = AVR8_REG_Z;
       break;
 
@@ -603,8 +603,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_ELPM;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -613,9 +613,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_ELPM;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -630,8 +630,8 @@ uint32_t
     case 0x9206:
       dasm->mnemonic = AVR8_INSN_LAC;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -640,8 +640,8 @@ uint32_t
     case 0x9205:
       dasm->mnemonic = AVR8_INSN_LAS;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -650,8 +650,8 @@ uint32_t
     case 0x9207:
       dasm->mnemonic = AVR8_INSN_LAT;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -661,8 +661,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[1].value = AVR8_REG_X;
       break;
 
@@ -671,9 +671,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[1].value = AVR8_REG_X;
       break;
 
@@ -682,9 +682,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[1].value = AVR8_REG_X;
       break;
 
@@ -693,8 +693,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[1].value = AVR8_REG_Y;
       break;
 
@@ -703,9 +703,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[1].value = AVR8_REG_Y;
       break;
 
@@ -714,9 +714,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[1].value = AVR8_REG_Y;
       break;
 
@@ -725,8 +725,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -735,9 +735,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -746,9 +746,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LD;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_BYTE;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_BYTE;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -769,8 +769,8 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LPM;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -779,9 +779,9 @@ uint32_t
       dasm->mnemonic = AVR8_INSN_LPM;
       dasm->nopd = 2;
       avr8_set_operand_rd_5bit (&dasm->opd[0], opcode);
-      dasm->opd[1].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[1].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[1].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[1].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[1].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[1].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[1].value = AVR8_REG_Z;
       break;
 
@@ -824,8 +824,8 @@ uint32_t
     case 0x920C:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[0].value = AVR8_REG_X;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -834,9 +834,9 @@ uint32_t
     case 0x920D:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[0].value = AVR8_REG_X;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -845,9 +845,9 @@ uint32_t
     case 0x920E:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[0].value = AVR8_REG_X;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -856,8 +856,8 @@ uint32_t
     case 0x8208:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[0].value = AVR8_REG_Y;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -866,9 +866,9 @@ uint32_t
     case 0x9209:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[0].value = AVR8_REG_Y;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -877,9 +877,9 @@ uint32_t
     case 0x920A:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[0].value = AVR8_REG_Y;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -888,8 +888,8 @@ uint32_t
     case 0x8200:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -898,9 +898,9 @@ uint32_t
     case 0x9201:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_POSTINC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_POSTINC;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -909,9 +909,9 @@ uint32_t
     case 0x9202:
       dasm->mnemonic = AVR8_INSN_ST;
       dasm->nopd = 2;
-      dasm->opd[0].type = MCU_OPD_TYPE_REGISTER;
-      dasm->opd[0].size = MCU_OPD_SIZE_WORD;
-      dasm->opd[0].flags = MCU_OPD_FLAGS_PREDEC;
+      dasm->opd[0].type = LIBMCU_OPD_TYPE_REGISTER;
+      dasm->opd[0].size = LIBMCU_OPD_SIZE_WORD;
+      dasm->opd[0].flags = LIBMCU_OPD_FLAGS_PREDEC;
       dasm->opd[0].value = AVR8_REG_Z;
       avr8_set_operand_rd_5bit (&dasm->opd[1], opcode);
       break;
@@ -1515,14 +1515,14 @@ uint32_t
 /* Thanksfully visual studio's compiler of shit the C99 structure   */
 /* declaration with a dot is NOT FKING SUPPORTED.                   */
 /* Just go fking die microsoft. Die you piece of shit cumbag mofo.  */
-mcu_asm_fmt_t avr8_default_fmt = 
+libmcu_asm_fmt_t avr8_default_fmt = 
 {
 /*  .fmt_name          =*/ "avrasm2 assembler format",
 /*  .fmt_shortname     =*/ "avrasm2",
 /*  .opcode_padding    =*/ 4,
 /*  .comm_padding      =*/ 40,
-/*  .dst_first         =*/ MCU_ASM_DST_FIRST,
-/*  .def_fmt           =*/ MCU_ASM_DEF_FORMAT_HEX,
+/*  .dst_first         =*/ LIBMCU_ASM_DST_FIRST,
+/*  .def_fmt           =*/ LIBMCU_ASM_DEF_FORMAT_HEX,
 /*  .insn_prefix       =*/ NULL,
 /*  .insn_suffix       =*/ NULL,
 /*  .register_prefix   =*/ NULL,
@@ -1566,14 +1566,14 @@ mcu_asm_fmt_t avr8_default_fmt =
 };
 
 /* ---------------------------------------------------------------- */
-mcu_asm_fmt_t avr8_fmt_colors = 
+libmcu_asm_fmt_t avr8_fmt_colors = 
 {
 /*  .fmt_name          =*/ "avrasm2 assembler format with colors",
 /*  .fmt_shortname     =*/ "avrasm2_colors",
 /*  .opcode_padding    =*/ 4,
 /*  .comm_padding      =*/ 40,
-/*  .dst_first         =*/ MCU_ASM_DST_FIRST,
-/*  .def_fmt           =*/ MCU_ASM_DEF_FORMAT_HEX,
+/*  .dst_first         =*/ LIBMCU_ASM_DST_FIRST,
+/*  .def_fmt           =*/ LIBMCU_ASM_DEF_FORMAT_HEX,
 /*  .insn_prefix       =*/ NULL,
 /*  .insn_suffix       =*/ NULL,
 /*  .register_prefix   =*/ "\x1b[0;31m",
@@ -1617,7 +1617,7 @@ mcu_asm_fmt_t avr8_fmt_colors =
 };
 
 /* ---------------------------------------------------------------- */
-mcu_asm_fmt_t* avr8_asm_fmts[] = 
+libmcu_asm_fmt_t* avr8_asm_fmts[] = 
 {
   &avr8_default_fmt,
   &avr8_fmt_colors,
@@ -1625,7 +1625,7 @@ mcu_asm_fmt_t* avr8_asm_fmts[] =
 };
 
 /* ---------------------------------------------------------------- */
-mcu_arch_t avr8_arch =
+libmcu_arch_t __g_libmcu_internal_avr8_arch =
 {
 /*  .name            =*/ "ATMEL AVR 8(16)-bit",
 /*  .shortname       =*/ "avr8",
@@ -1641,8 +1641,8 @@ mcu_arch_t avr8_arch =
 /*  .regname         =*/ avr8_regname,
 /*  .nregs           =*/ 0x00,
 
-/*  .bus_type        =*/ MCU_ARCH_BUS_HARVARD_MOD,
-/*  .bus_size        =*/ MCU_ARCH_BUS_SIZE_16BIT,
+/*  .bus_type        =*/ LIBMCU_ARCH_BUS_HARVARD_MOD,
+/*  .bus_size        =*/ LIBMCU_ARCH_BUS_SIZE_16BIT,
 /*  .predisasm       =*/ NULL,
 /*  .disasm          =*/ avr8_disasm,
 /*  .postdisasm      =*/ NULL,

@@ -33,5 +33,9 @@ Check out cfg directory, im too lazy to explain this shit.
 Bonus
 -----
 
-Processor modules for IDA (coming soon).
+Processor modules for IDA.
+- Intel 8051
+
+TODO:
+- Add listview with all internal registers.
 

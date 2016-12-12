@@ -2,7 +2,7 @@
 #ifndef __REG_HPP__
 #define __REG_HPP__
 
-#define REG(x) i8051_arch.regname[x]
+#define REG(x) __g_libmcu_internal_i8051_arch.regname[x]
 
 extern const char* const mcu8051_regname[];
 

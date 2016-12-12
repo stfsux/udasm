@@ -8,20 +8,20 @@
 /* ---------------------------------------------------------------- */
 #define LIBMCU_NUM_ARCHS 2
 
-mcu_arch_t* g_libmcu_archs[LIBMCU_NUM_ARCHS+1] =
+libmcu_arch_t* g_libmcu_archs[LIBMCU_NUM_ARCHS+1] =
 {
-  &i8051_arch,
-  &avr8_arch,
+  &__g_libmcu_internal_i8051_arch,
+  &__g_libmcu_internal_avr8_arch,
   NULL,
 };
 
 /* ---------------------------------------------------------------- */
-mcu_ctx_t*
+libmcu_ctx_t*
  libmcu_arch_create (uint8_t arch)
 {
-  mcu_ctx_t* ctx = NULL;
+  libmcu_ctx_t* ctx = NULL;
 
-  ctx = calloc (1, sizeof(mcu_ctx_t));
+  ctx = calloc (1, sizeof(libmcu_ctx_t));
   if (ctx == NULL) return NULL;
 
   switch (arch)
@@ -50,7 +50,7 @@ uint8_t
 }
 
 /* ---------------------------------------------------------------- */
-mcu_arch_t*
+libmcu_arch_t*
  libmcu_arch_get (uint8_t num)
 {
   if (num < LIBMCU_NUM_ARCHS)
@@ -60,8 +60,8 @@ mcu_arch_t*
 
 /* ---------------------------------------------------------------- */
 void
- libmcu_arch_set_predisasm (mcu_ctx_t* ctx,
-     uint32_t (*predisasm)(mcu_dasm_t* dasm,uint8_t* code,
+ libmcu_arch_set_predisasm (libmcu_ctx_t* ctx,
+     uint32_t (*predisasm)(libmcu_dasm_t* dasm,uint8_t* code,
        uint32_t size, void* data))
 {
   if (ctx == NULL) return;
@@ -73,8 +73,8 @@ void
 
 /* ---------------------------------------------------------------- */
 void
- libmcu_arch_set_postdisasm (mcu_ctx_t* ctx,
-     uint32_t (*postdisasm)(mcu_dasm_t* dasm,uint8_t* code,
+ libmcu_arch_set_postdisasm (libmcu_ctx_t* ctx,
+     uint32_t (*postdisasm)(libmcu_dasm_t* dasm,uint8_t* code,
        uint32_t size, void* data))
 {
   if (ctx == NULL) return;
@@ -86,7 +86,7 @@ void
 
 /* ---------------------------------------------------------------- */
 uint32_t
- libmcu_arch_disasm (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
+ libmcu_arch_disasm (libmcu_ctx_t* ctx, libmcu_dasm_t* dasm,
      uint8_t* code, uint32_t size, uint64_t addr)
 {
   uint32_t ret = 0;
@@ -114,7 +114,7 @@ uint32_t
 
 /* ---------------------------------------------------------------- */
 uint32_t
- libmcu_arch_disasm_ex (mcu_ctx_t* ctx, mcu_dasm_t* dasm,
+ libmcu_arch_disasm_ex (libmcu_ctx_t* ctx, libmcu_dasm_t* dasm,
      uint8_t* code, uint32_t size, uint64_t addr, void* data)
 {
   uint32_t ret = 0;
@@ -141,7 +141,7 @@ uint32_t
 
 /* ---------------------------------------------------------------- */
 void 
- libmcu_arch_destroy_safe (mcu_ctx_t** ctx)
+ libmcu_arch_destroy_safe (libmcu_ctx_t** ctx)
 {
   if (ctx == NULL) return;
   if (*ctx == NULL) return;

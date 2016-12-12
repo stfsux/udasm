@@ -42,11 +42,11 @@ int
   char* memmap_name = NULL;
   uint32_t n = 0, m = 0, i = 0;
   uint8_t arch_found = 0, fmt_found = 0;
-  mcu_ctx_t* mcu_ctx = NULL;
-  mcu_arch_t* mcu_arch = NULL;
-  mcu_asm_fmt_t* mcu_fmt = NULL;
-  mcu_mmap_t* mcu_mmap = NULL;
-  mcu_dasm_t dasm;
+  libmcu_ctx_t* mcu_ctx = NULL;
+  libmcu_arch_t* mcu_arch = NULL;
+  libmcu_asm_fmt_t* mcu_fmt = NULL;
+  libmcu_mmap_t* mcu_mmap = NULL;
+  libmcu_dasm_t dasm;
   uint32_t sz = 0;
   uint8_t* code = NULL;
   uint32_t offset = 0;
@@ -149,7 +149,7 @@ int
   if (mcu_ctx == NULL)
   {
     err ("cannot allocate %zu byte(s).\n",
-        sizeof (mcu_ctx_t));
+        sizeof (libmcu_ctx_t));
     goto g_exit;
   }
 
