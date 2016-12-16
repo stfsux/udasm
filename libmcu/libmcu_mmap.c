@@ -246,6 +246,26 @@ uint32_t
 }
 
 /* --------------------------------------------------------------- */
+const char*
+ libmcu_mmap_idata_reg_name (libmcu_mmap_t* map, uint32_t n)
+{
+  config_setting_t* s = NULL;
+
+  s = config_setting_get_elem (map->idata_registers, n);
+  return config_setting_get_string_elem (s, 0);
+}
+
+/* --------------------------------------------------------------- */
+uint32_t
+ libmcu_mmap_idata_reg_addr (libmcu_mmap_t* map, uint32_t n)
+{
+  config_setting_t* s = NULL;
+
+  s = config_setting_get_elem (map->idata_registers, n);
+  return config_setting_get_int_elem (s, 1);
+}
+
+/* --------------------------------------------------------------- */
 uint32_t
  libmcu_mmap_idata_reg_bit (libmcu_mmap_t* map, uint64_t addr)
 {
@@ -263,6 +283,27 @@ uint32_t
 
   return LIBMCU_MMAP_UNMAPPED;
 }
+
+/* --------------------------------------------------------------- */
+const char*
+ libmcu_mmap_idata_reg_bit_name (libmcu_mmap_t* map, uint32_t n)
+{
+  config_setting_t* s = NULL;
+
+  s = config_setting_get_elem (map->idata_registers_bit, n);
+  return config_setting_get_string_elem (s, 0);
+}
+
+/* --------------------------------------------------------------- */
+uint32_t
+ libmcu_mmap_idata_reg_bit_addr (libmcu_mmap_t* map, uint32_t n)
+{
+  config_setting_t* s = NULL;
+
+  s = config_setting_get_elem (map->idata_registers_bit, n);
+  return config_setting_get_int_elem (s, 1);
+}
+
 
 /* --------------------------------------------------------------- */
 uint32_t
@@ -314,26 +355,6 @@ uint8_t
 
 /* --------------------------------------------------------------- */
 const char*
- libmcu_mmap_idata_reg_name (libmcu_mmap_t* map, uint32_t n)
-{
-  config_setting_t* s = NULL;
-
-  s = config_setting_get_elem (map->idata_registers, n);
-  return config_setting_get_string_elem (s, 0);
-}
-
-/* --------------------------------------------------------------- */
-const char*
- libmcu_mmap_idata_reg_bit_name (libmcu_mmap_t* map, uint32_t n)
-{
-  config_setting_t* s = NULL;
-
-  s = config_setting_get_elem (map->idata_registers_bit, n);
-  return config_setting_get_string_elem (s, 0);
-}
-
-/* --------------------------------------------------------------- */
-const char*
  libmcu_mmap_code_int_name (libmcu_mmap_t* map, uint32_t n)
 {
   config_setting_t* s = NULL;
@@ -343,6 +364,18 @@ const char*
 
   s = config_setting_get_elem (map->code_int, n);
   return config_setting_get_string_elem (s, 0);
+}
+
+/* --------------------------------------------------------------- */
+uint32_t
+ libmcu_mmap_code_int_addr (libmcu_mmap_t* map, uint32_t n)
+{
+  config_setting_t* s = NULL;
+
+  if (map == NULL) return LIBMCU_MMAP_UNMAPPED;
+
+  s = config_setting_get_elem (map->code_int, n);
+  return config_setting_get_int_elem (s, 1);
 }
 
 /* --------------------------------------------------------------- */

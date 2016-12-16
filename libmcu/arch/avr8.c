@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #include "libmcu.h"
-#include "avr8.h"
+#include "arch/avr8.h"
 
 /* ---------------------------------------------------------------- */
 /* TODO: setup operand(s) bus type. */
@@ -1625,7 +1625,7 @@ libmcu_asm_fmt_t* avr8_asm_fmts[] =
 };
 
 /* ---------------------------------------------------------------- */
-libmcu_arch_t __g_libmcu_internal_avr8_arch =
+const libmcu_arch_t g_libmcu_internal_avr8_arch =
 {
 /*  .name            =*/ "ATMEL AVR 8(16)-bit",
 /*  .shortname       =*/ "avr8",

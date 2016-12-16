@@ -177,7 +177,7 @@ enum
 #define AVR8_REG_ALIAS(a) (AVR8_REG_X+a)
 #define AVR8_REG_FLAGS(a) (AVR8_REG_C+a)
 
-LIBMCU_CDECL libmcu_arch_t __g_libmcu_internal_avr8_arch;
+LIBMCU_CDECL const libmcu_arch_t g_libmcu_internal_avr8_arch;
 
 #endif
 

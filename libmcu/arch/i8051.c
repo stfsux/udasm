@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #include "libmcu.h"
-#include "i8051.h"
+#include "arch/i8051.h"
 
 /* ---------------------------------------------------------------- */
 char* i8051_mnemonics[] = 
@@ -1662,7 +1662,7 @@ libmcu_asm_fmt_t* i8051_asm_fmts[] =
 };
 
 /* ---------------------------------------------------------------- */
-libmcu_arch_t __g_libmcu_internal_i8051_arch =
+const libmcu_arch_t g_libmcu_internal_i8051_arch =
 {
 /*  .name            =*/ "Intel 8051 generic",
 /*  .shortname       =*/ "i8051",

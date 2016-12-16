@@ -46,7 +46,7 @@ int idaapi
     for (n = 0; n < UA_MAXOP; n++)
     {
       if (cmd.Operands[n].type == o_mem &&
-          cmd.Operands[n].specflag1 == MCU_OPD_BUS_CODE)
+          cmd.Operands[n].specflag1 == LIBMCU_OPD_BUS_CODE)
         ua_add_cref (0, cmd.Operands[n].addr, fl_JF);
     }
   }
@@ -56,7 +56,7 @@ int idaapi
     for (n = 0; n < UA_MAXOP; n++)
     {
       if (cmd.Operands[n].type == o_mem &&
-          cmd.Operands[n].specflag1 == MCU_OPD_BUS_CODE)
+          cmd.Operands[n].specflag1 == LIBMCU_OPD_BUS_CODE)
         ua_add_cref (0, cmd.Operands[n].addr, fl_JF);
     }
   }

@@ -8,11 +8,10 @@
 /* ---------------------------------------------------------------- */
 #define LIBMCU_NUM_ARCHS 2
 
-libmcu_arch_t* g_libmcu_archs[LIBMCU_NUM_ARCHS+1] =
+const libmcu_arch_t* g_libmcu_archs[LIBMCU_NUM_ARCHS] =
 {
-  &__g_libmcu_internal_i8051_arch,
-  &__g_libmcu_internal_avr8_arch,
-  NULL,
+  &g_libmcu_internal_i8051_arch,
+  &g_libmcu_internal_avr8_arch,
 };
 
 /* ---------------------------------------------------------------- */

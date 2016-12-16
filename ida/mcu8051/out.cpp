@@ -35,11 +35,11 @@ bool idaapi
     case o_mem:
       switch (x.specflag1)
       {
-        case MCU_OPD_BUS_CODE:
+        case LIBMCU_OPD_BUS_CODE:
           out_name_expr (x, x.addr, x.addr);
           break;
           
-        case MCU_OPD_BUS_IDATA:
+        case LIBMCU_OPD_BUS_IDATA:
           rid = libmcu_mmap_idata_reg (g_libmcu_mmap, x.addr);
           if (rid != LIBMCU_MMAP_UNMAPPED)
             OutLine (libmcu_mmap_idata_reg_name (g_libmcu_mmap, rid));
@@ -47,7 +47,7 @@ bool idaapi
             OutValue (x, OOF_ADDR);
           break;
 
-        case MCU_OPD_BUS_IDATA_BITS:
+        case LIBMCU_OPD_BUS_IDATA_BITS:
           rid = libmcu_mmap_idata_reg_bit (g_libmcu_mmap, x.addr);
           if (rid != LIBMCU_MMAP_UNMAPPED)
             OutLine (libmcu_mmap_idata_reg_bit_name (g_libmcu_mmap, rid));

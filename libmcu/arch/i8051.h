@@ -68,7 +68,7 @@ enum
   I8051_REG_AB
 };
 
-LIBMCU_CDECL libmcu_arch_t __g_libmcu_internal_i8051_arch;
+LIBMCU_CDECL const libmcu_arch_t g_libmcu_internal_i8051_arch;
 
 #endif
 

@@ -130,6 +130,9 @@ int
   for (n = 0; n < libmcu_arch_get_num_archs (); n++)
   {
     mcu_arch = libmcu_arch_get (n);
+    if (mcu_arch == NULL) continue;
+    printf ("%s %p %d\n", mcu_arch->shortname, mcu_arch, n);
+    printf ("%s\n", arch_name);
     if (strcmp (mcu_arch->shortname, arch_name) == 0)
     {
       arch_sel = n;

@@ -6,7 +6,7 @@ extern char* g_libmcu_cfg;
 extern libmcu_mmap_t* g_libmcu_mmap;
 extern libmcu_ctx_t* g_libmcu_ctx;
 
-void ida_libmcu_destroy (void);
+void mcu8051_destroy (void);
 
 #endif
 

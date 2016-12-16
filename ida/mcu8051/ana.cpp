@@ -9,7 +9,7 @@
 #include "ins.hpp"
 #include "mcu8051.hpp"
 
-#define MAXOPCODE __g_libmcu_internal_i8051_arch.opcode_max_size
+#define MAXOPCODE g_libmcu_internal_i8051_arch.opcode_max_size
 
 int idaapi
  mcu8051_ana (void)
@@ -37,8 +37,8 @@ int idaapi
   {
     switch (dasm.opd[n].type)
     {
-      case MCU_OPD_TYPE_REGISTER:
-        if (dasm.opd[n].flags & MCU_OPD_FLAGS_INDIRECT)
+      case LIBMCU_OPD_TYPE_REGISTER:
+        if (dasm.opd[n].flags & LIBMCU_OPD_FLAGS_INDIRECT)
         {
           cmd.Operands[n].type = o_phrase;
           cmd.Operands[n].reg = dasm.opd[n].value;
@@ -50,20 +50,20 @@ int idaapi
         }
         break;
 
-      case MCU_OPD_TYPE_IMM:
+      case LIBMCU_OPD_TYPE_IMM:
         if (dasm.opd[n].flags == 0)
         {
           cmd.Operands[n].type = o_imm;
           cmd.Operands[n].value = dasm.opd[n].value;
         }
-        if (dasm.opd[n].flags & MCU_OPD_FLAGS_DIRECT)
+        if (dasm.opd[n].flags & LIBMCU_OPD_FLAGS_DIRECT)
         {
           cmd.Operands[n].type = o_mem;
           cmd.Operands[n].addr = dasm.opd[n].value;
         }
         break;
 
-      case MCU_OPD_TYPE_DISPL:
+      case LIBMCU_OPD_TYPE_DISPL:
         cmd.Operands[n].type = o_displ;
         cmd.Operands[n].reg = dasm.opd[n].displ.base;
         cmd.Operands[n].value = dasm.opd[n].displ.offset;
@@ -71,11 +71,11 @@ int idaapi
     }
     switch (dasm.opd[n].size)
     {
-      case MCU_OPD_SIZE_BYTE:
+      case LIBMCU_OPD_SIZE_BYTE:
         cmd.Operands[n].dtyp = dt_byte;
         break;
 
-      case MCU_OPD_SIZE_WORD:
+      case LIBMCU_OPD_SIZE_WORD:
         cmd.Operands[n].dtyp = dt_word;
         break;
     }

@@ -12,6 +12,7 @@
 #include "reg.hpp"
 #include "out.hpp"
 #include "emu.hpp"
+#include "gui.hpp"
 #include "mcu8051.hpp"
 
 char* g_libmcu_cfg = NULL;
@@ -36,7 +37,7 @@ static int idaapi
     case processor_t::newfile:
     */
     case processor_t::newbinary:
-      ida_libmcu_destroy ();
+      mcu8051_destroy ();
       g_libmcu_ctx = libmcu_arch_create (LIBMCU_ARCH_I8051);
       retask = askbuttons_c (
           "Load",
@@ -72,10 +73,13 @@ static int idaapi
           }
         }
       }
+      mcu8051_gui_menu_create (g_libmcu_mmap);
       break;
 
     case processor_t::term:
-      ida_libmcu_destroy ();
+      msg ("Freeing libmcu memory...\n");
+      mcu8051_destroy ();
+      mcu8051_gui_menu_destroy ();
       break;
   }
   va_end (va);
@@ -104,7 +108,7 @@ void idaapi
 }
 
 void
- ida_libmcu_destroy (void)
+ mcu8051_destroy (void)
 {
   if (g_libmcu_cfg != NULL)
   {
@@ -226,7 +230,7 @@ extern "C" __declspec(dllexport) processor_t
   intel_data,            /* d_out() */
   NULL,                  /* cmp_opnd() */
   NULL,                  /* can_have_type() */
-  i8051_arch.nregs+2,    /* regNum */
+  I8051_REG_VDS,         /* regNum */
   mcu8051_regname,       /* regNames */
   NULL,                  /* getreg() */
   0,                     /* rFiles */

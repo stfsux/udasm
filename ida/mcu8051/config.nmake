@@ -19,7 +19,7 @@ UDASM_ROOT=C:/Users/IEUser/Desktop/dev/udasm
 CFLAGS_GLOBAL=/MT
 
 # procs
-CFLAGS=/I$(UDASM_ROOT)/libmcu /I$(UDASM_ROOT)/src /I$(LIBCONFIG_ROOT)/lib /I$(UDASM_ROOT)/src/win32 /DGETOPT_API= /DREPLACE_GETOPT /DLIBCONFIG_STATIC /Gm- /GS $(CFLAGS_GLOBAL) /D__NT__ /D__IDP__ /I$(IDASDK_INC) /I$(IDASDK_ROOT)\module\ /c
+CFLAGS=/I$(UDASM_ROOT)/libmcu /I$(UDASM_ROOT)/src /I$(LIBCONFIG_ROOT)/lib /I$(UDASM_ROOT)/src/win32 /DGETOPT_API= /DREPLACE_GETOPT /DLIBCONFIG_STATIC /D_USRDLL /D_WINDLL /LD /Gm- /GS /MT /D__NT__ /D__IDP__ /I$(IDASDK_INC) /I$(IDASDK_ROOT)\module\ /c
 LIBS=kernel32.lib ida.lib pro.lib libconfig.lib libmcu.lib
 LDFLAGS=/LIBPATH:$(UDASM_ROOT)/libmcu /LIBPATH:$(LIBCONFIG_ROOT)/Release /LIBPATH:$(IDASDK_LIB) /DLL /LARGEADDRESSAWARE /DYNAMICBASE /BASE:0x13000000 /INCREMENTAL:NO /STUB:$(IDASDK_ROOT)\module\stub
 
@@ -29,6 +29,6 @@ LDFLAGS=/LIBPATH:$(UDASM_ROOT)/libmcu /LIBPATH:$(LIBCONFIG_ROOT)/Release /LIBPAT
 
 #
 TARGET=mcu8051
-SRC_FILES=ana.cpp ins.cpp mcu8051.cpp reg.cpp out.cpp emu.cpp
-OBJ_FILES=ana.obj ins.obj mcu8051.obj reg.obj out.obj emu.obj
+SRC_FILES=ana.cpp ins.cpp mcu8051.cpp reg.cpp out.cpp emu.cpp gui.cpp
+OBJ_FILES=ana.obj ins.obj mcu8051.obj reg.obj out.obj emu.obj gui.obj
 

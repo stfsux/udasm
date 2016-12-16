@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 #define LIBMCU_CDECL extern "C"
 #else
-#define LIBMCU_CDECL
+#define LIBMCU_CDECL extern
 #endif
 
 #include <stdint.h>
